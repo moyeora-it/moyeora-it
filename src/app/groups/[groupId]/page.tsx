@@ -6,6 +6,7 @@ import { ReplySection } from '@/components/organisms/reply/reply-section';
 import { GroupDetail } from '@/types';
 import { getAuthCookieHeader } from '@/utils/cookie';
 import { isBeforeToday } from '@/utils/dateUtils';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 type GroupDetailResponse = {
@@ -20,6 +21,67 @@ type GroupDetailResponse = {
 type GroupDetailPageProps = {
   params: Promise<{ groupId: string }>;
 };
+
+const convertHtmlToPlainText = (html: string) => {
+  return html
+    .replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/gi, '$1. ') // 헤딩은 강조
+    .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1 ') // 단락 유지
+    .replace(/<[^>]*>/g, '') // 나머지 태그 제거
+    .replace(/\s+/g, ' ') // 공백 정리
+    .trim();
+};
+
+const fallbackMetadata: Metadata = {
+  title: '404 | 모여라-IT',
+  description: '존재하지 않는 모임입니다.',
+  openGraph: {
+    title: '404 | 모여라-IT',
+    description: '존재하지 않는 모임입니다.',
+    images: [{ url: '/logos/logo-img.svg' }],
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: GroupDetailPageProps): Promise<Metadata> {
+  const groupId = Number((await params).groupId);
+  const cookieHeaderValue = await getAuthCookieHeader();
+
+  let group;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/groups/${groupId}`,
+      {
+        headers: {
+          Cookie: cookieHeaderValue,
+        },
+      },
+    );
+
+    if (!response.ok) return fallbackMetadata;
+
+    const data: GroupDetailResponse = await response.json();
+
+    group = data?.items?.group;
+  } catch {
+    return fallbackMetadata;
+  }
+
+  if (!group) return fallbackMetadata;
+
+  const plainDescription = convertHtmlToPlainText(group.description);
+
+  return {
+    title: `${group.title} | 모여라-IT`,
+    description: plainDescription,
+    openGraph: {
+      title: `${group.title} | 모여라-IT`,
+      description: plainDescription,
+      images: [{ url: '/logos/logo-img.svg' }],
+    },
+  };
+}
 
 export default async function GroupDetailPage({
   params,
