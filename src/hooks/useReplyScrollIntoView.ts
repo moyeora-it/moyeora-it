@@ -69,16 +69,8 @@ export const useReplyScrollIntoView = ({
         block: 'center',
       });
     }
-  }, [
-    pathname,
-    replyType,
-    router,
-    searchParams,
-    setTargetReply,
-    targetReplyId,
-    targetRereplyId,
-    data,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetReplyId, targetRereplyId, data]);
 
   return {
     itemRefs,
