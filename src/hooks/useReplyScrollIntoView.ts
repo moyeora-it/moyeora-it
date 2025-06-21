@@ -2,7 +2,7 @@ import { useTargetReplyStore } from '@/stores/useTargetReply';
 import { Reply } from '@/types';
 import { Page } from '@/utils/flattenPages';
 import type { InfiniteData } from '@tanstack/react-query';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
 interface UseReplyScrollIntoViewProps {
@@ -28,7 +28,6 @@ export const useReplyScrollIntoView = ({
   const { targetReplyId, targetRereplyId, setTargetReply } =
     useTargetReplyStore();
 
-  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -58,10 +57,10 @@ export const useReplyScrollIntoView = ({
         newParams.delete('replyId');
         const newQuery = newParams.toString();
         const newUrl = newQuery ? `${pathname}?${newQuery}` : pathname;
-        router.replace(newUrl, { scroll: false });
+        window.history.replaceState(null, '', newUrl);
       } else {
         setTargetReply({ targetRereplyId: null });
-        router.replace(pathname, { scroll: false });
+        window.history.replaceState(null, '', pathname);
       }
     } else {
       bottomRef.current?.scrollIntoView({
