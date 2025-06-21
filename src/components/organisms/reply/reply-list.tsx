@@ -47,6 +47,7 @@ export const ReplyList = () => {
   const { itemRefs: replyRefs, bottomRef } = useReplyScrollIntoView({
     data,
     replyType: 'reply',
+    hasNextPage,
   });
 
   const replies = flattenPages(data.pages);

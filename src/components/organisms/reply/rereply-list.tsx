@@ -36,6 +36,7 @@ export const RereplyList = ({ parentReplyId }: RereplyListProps) => {
   const { itemRefs: rereplyRefs, bottomRef } = useReplyScrollIntoView({
     data,
     replyType: 'rereply',
+    hasNextPage,
   });
 
   const rereplies = flattenPages(data.pages).filter(
