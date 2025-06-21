@@ -1,7 +1,7 @@
 import { GroupDescription } from '@/components/atoms/group-description';
 import { GroupActionButtons } from '@/components/molecules/gorup-action-buttons';
 import { Empty } from '@/components/organisms/empty';
-import { GroupDetaiilCard } from '@/components/organisms/group-detail-card';
+import { GroupDetailCard } from '@/components/organisms/group-detail-card';
 import { ReplySection } from '@/components/organisms/reply/reply-section';
 import { GroupDetail } from '@/types';
 import { getAuthCookieHeader } from '@/utils/cookie';
@@ -152,7 +152,7 @@ export default async function GroupDetailPage({
     <>
       <main className="mx-auto flex flex-col gap-10 mb-15">
         <div className="bg-gray-50 items-center py-15 px-5 sm:px-10">
-          <GroupDetaiilCard info={data} isRecruiting={isRecruiting} />
+          <GroupDetailCard info={data} isRecruiting={isRecruiting} />
         </div>
         <div className="mx-auto flex flex-col gap-10 w-full max-w-[900px] max-[900px]:px-10 px-6">
           <GroupDescription
