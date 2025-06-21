@@ -49,7 +49,7 @@ export function BookmarkPageClient() {
   });
 
   //ISSUE: 일단 전체 그룹 데이터 가져오기
-  const { data, isError, fetchNextPage, isLoading } =
+  const { data, isError, fetchNextPage, isLoading, isFetchingNextPage } =
     useFetchItems<ContentInfo>({
       url: '/v2/groups',
       queryParams,
@@ -62,6 +62,8 @@ export function BookmarkPageClient() {
 
   const { ref } = useFetchInView({
     fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
     options: {
       rootMargin: '50px',
     },

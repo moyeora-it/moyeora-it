@@ -1,23 +1,22 @@
 'use client';
 
-import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
 import { Avatar } from '@/components/atoms/avatar';
-import { useFetchInView } from '@/hooks/useFetchInView';
-import { useFetchItems } from '@/hooks/useFetchItems';
-import { User } from '@/types';
-import { ToggleFollowButton } from '@/features/user/follow/components/toggle-follow-button';
-import flattenPages from '@/utils/flattenPages';
-import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
-import useAuthStore from '@/stores/useAuthStore';
-import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Page } from '@/utils/flattenPages';
 import FollowListItemsLoading from '@/features/user/follow/components/follow-list-items-loading';
+import { ToggleFollowButton } from '@/features/user/follow/components/toggle-follow-button';
+import { useFetchInView } from '@/hooks/useFetchInView';
+import { useFetchItems } from '@/hooks/useFetchItems';
+import useAuthStore from '@/stores/useAuthStore';
+import { User } from '@/types';
+import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
+import flattenPages, { Page } from '@/utils/flattenPages';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useParams, useSearchParams } from 'next/navigation';
 
 export const FollowingList = () => {
   const searchParams = useSearchParams();
@@ -26,22 +25,24 @@ export const FollowingList = () => {
 
   const search = searchParams.get('search');
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useFetchItems<User>({
-    url: `/v1/follow/${id}/following`,
-    ...(search && { queryParams: { name: search } }),
-    options: {
-      refetchOnMount: true,
-      staleTime: 0,
-      retry: 0,
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useFetchItems<User>({
+      url: `/v1/follow/${id}/following`,
+      ...(search && { queryParams: { name: search } }),
+      options: {
+        refetchOnMount: true,
+        staleTime: 0,
+        retry: 0,
+      },
+    });
 
   const followingCount = (data.pages[0] as Page<User> & { totalCount: number })
     .totalCount;
 
   const { ref } = useFetchInView({
     fetchNextPage,
-    isLoading: isFetchingNextPage,
+    isLoading,
+    isFetchingNextPage,
   });
 
   const followingList = flattenPages<User>(data.pages);
@@ -50,7 +51,9 @@ export const FollowingList = () => {
     <div className="flex flex-col gap-y-6 pb-4 rounded-b-2xl flex-1 mt-3">
       <div className="flex items-center">
         <div className="flex gap-x-1 items-center">
-          <span className="text-sm font-semibold text-gray-500">총 팔로잉 수 : </span>
+          <span className="text-sm font-semibold text-gray-500">
+            총 팔로잉 수 :{' '}
+          </span>
           <span className="text-sm font-semibold text-gray-500">
             {followingCount ?? 0}
           </span>
@@ -109,7 +112,11 @@ export const FollowingList = () => {
                               userId={String(userId)}
                               isFollowing={isFollowing}
                               usedIn="following"
-                              className={`shadow-none hover:bg-white! ${isFollowing ? 'text-red-600 [&>svg]:text-red-600!' : 'text-black [&_svg]:text-black'} bg-white h-[28px] cursor-pointer text-sm font-semibold rounded-lg py-1 px-3 gap-x-[6px]`}
+                              className={`shadow-none hover:bg-white! ${
+                                isFollowing
+                                  ? 'text-red-600 [&>svg]:text-red-600!'
+                                  : 'text-black [&_svg]:text-black'
+                              } bg-white h-[28px] cursor-pointer text-sm font-semibold rounded-lg py-1 px-3 gap-x-[6px]`}
                             />
                           }
                         </DropdownMenuContent>
@@ -121,7 +128,9 @@ export const FollowingList = () => {
             ),
           )}
           {isFetchingNextPage && <FollowListItemsLoading itemCount={4} />}
-          {!isFetchingNextPage && hasNextPage && <div ref={ref} className="h-10" />}
+          {!isFetchingNextPage && hasNextPage && (
+            <div ref={ref} className="h-10" />
+          )}
         </ul>
       )}
     </div>

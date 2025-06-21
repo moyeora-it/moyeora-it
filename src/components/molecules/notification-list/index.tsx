@@ -35,13 +35,14 @@ export const NotificationList = () => {
 
   // 전체 알림 목록 조회
   // TODO: 백엔드 데이터 타입 고쳐야됨 - 프젝 끝나고 고칠예정
-  const { data, fetchNextPage, hasNextPage } = useFetchItems({
-    url: '/v1/notification',
-    getNextPageParam: (lastPage) => {
-      const page = NotificationPageSchema.parse(lastPage);
-      return page.notifications.hasNext ? page.notifications.cursor : null;
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useFetchItems({
+      url: '/v1/notification',
+      getNextPageParam: (lastPage) => {
+        const page = NotificationPageSchema.parse(lastPage);
+        return page.notifications.hasNext ? page.notifications.cursor : null;
+      },
+    });
 
   // 안 읽은 알림 목록 조회
   const { data: unreadData, isLoading: isUnreadLoading } = useQuery<{
@@ -62,6 +63,7 @@ export const NotificationList = () => {
   const { ref } = useFetchInView({
     fetchNextPage,
     isLoading: isUnreadLoading,
+    isFetchingNextPage,
   });
 
   const normalizeNotification = (

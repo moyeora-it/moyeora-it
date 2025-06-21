@@ -30,6 +30,7 @@ export const RereplyList = ({ parentReplyId }: RereplyListProps) => {
   const { ref } = useFetchInView({
     fetchNextPage,
     isLoading,
+    isFetchingNextPage,
   });
 
   const { itemRefs: rereplyRefs, bottomRef } = useReplyScrollIntoView({

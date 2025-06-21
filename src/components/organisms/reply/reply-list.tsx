@@ -30,6 +30,7 @@ export const ReplyList = () => {
   const { ref } = useFetchInView({
     fetchNextPage,
     isLoading,
+    isFetchingNextPage,
   });
 
   const { notificationTargetReplyId } = useTargetReplyParams();

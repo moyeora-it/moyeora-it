@@ -52,17 +52,19 @@ export const GroupList = ({ serverQueryParams }: GroupListProps) => {
     serverQueryParams.search,
   ]);
 
-  const { data, fetchNextPage, hasNextPage, isLoading } = useFetchItems<Group>({
-    url: '/v2/groups',
-    queryParams: {
-      ...queryParams,
-      size: 10,
-    },
-  });
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } =
+    useFetchItems<Group>({
+      url: '/v2/groups',
+      queryParams: {
+        ...queryParams,
+        size: 10,
+      },
+    });
 
   const { ref } = useFetchInView({
     fetchNextPage,
     isLoading,
+    isFetchingNextPage,
     options: {
       rootMargin: '300px',
     },
