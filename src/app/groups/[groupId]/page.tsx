@@ -25,7 +25,7 @@ export default async function GroupDetailPage({
   params,
 }: GroupDetailPageProps) {
   const groupId = Number((await params).groupId);
-  const cookieString = await getAuthCookieHeader();
+  const cookieHeaderValue = await getAuthCookieHeader();
 
   let response: Response;
 
@@ -34,7 +34,7 @@ export default async function GroupDetailPage({
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/groups/${groupId}`,
       {
         headers: {
-          Cookie: cookieString,
+          Cookie: cookieHeaderValue,
         },
         next: { tags: [`group-detail-${groupId}`] },
       },
@@ -97,7 +97,7 @@ export default async function GroupDetailPage({
             description={group.description}
             groupType={group.type}
           />
-          <ReplySection />
+          <ReplySection groupId={groupId} />
         </div>
       </main>
       {isRecruiting && (

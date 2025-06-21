@@ -1,10 +1,36 @@
-'use client';
-
+import { request } from '@/api/request';
 import { ReplyForm } from '@/components/molecules/reply/reply-form';
 import { QueryErrorBoundary } from '@/components/query-error-boundary';
+import { getAuthCookieHeader } from '@/utils/cookie';
+import { QueryClient } from '@tanstack/react-query';
 import { ReplyList } from './reply-list';
 
-export const ReplySection = () => {
+export const ReplySection = async ({ groupId }: { groupId: number }) => {
+  const queryClient = new QueryClient();
+  const cookieHeaderValue = await getAuthCookieHeader();
+
+  const queryParams = {
+    size: 20,
+  };
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['items', `/v2/groups/${groupId}/replies`, queryParams],
+    queryFn: ({ pageParam }) =>
+      request.get(
+        `/v2/groups/${groupId}/replies`,
+        {
+          ...queryParams,
+          cursor: pageParam,
+        },
+        {},
+        {
+          Cookie: cookieHeaderValue,
+        },
+      ),
+    initialPageParam: 0,
+    retry: 0,
+  });
+
   return (
     <>
       <ReplyForm />
