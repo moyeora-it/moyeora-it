@@ -12,13 +12,15 @@ type RereplyListProps = {
   parentReplyId: number;
 };
 
+const DATA_SIZE = 20;
+
 export const RereplyList = ({ parentReplyId }: RereplyListProps) => {
   const { groupId } = useParams();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchItems<Reply & { parentId: number }>({
       url: `/v2/groups/${groupId}/replies/${parentReplyId}`,
       queryParams: {
-        size: 10,
+        size: DATA_SIZE,
       },
       options: {
         staleTime: 0,
