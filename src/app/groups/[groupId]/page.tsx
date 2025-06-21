@@ -159,7 +159,7 @@ export default async function GroupDetailPage({
             description={group.description}
             groupType={group.type}
           />
-          <ReplySection groupId={groupId} />
+          <ReplySection />
         </div>
       </main>
       {isRecruiting && (
