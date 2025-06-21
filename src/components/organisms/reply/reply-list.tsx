@@ -42,7 +42,8 @@ export const ReplyList = () => {
         targetReplyId: notificationTargetReplyId,
       });
     }
-  }, [notificationTargetReplyId, setTargetReply]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationTargetReplyId]);
 
   const { itemRefs: replyRefs, bottomRef } = useReplyScrollIntoView({
     data,
