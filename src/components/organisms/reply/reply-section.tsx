@@ -2,7 +2,11 @@ import { request } from '@/api/request';
 import { ReplyForm } from '@/components/molecules/reply/reply-form';
 import { QueryErrorBoundary } from '@/components/query-error-boundary';
 import { getAuthCookieHeader } from '@/utils/cookie';
-import { QueryClient } from '@tanstack/react-query';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 import { ReplyList } from './reply-list';
 
 export const ReplySection = async ({ groupId }: { groupId: number }) => {
@@ -31,6 +35,8 @@ export const ReplySection = async ({ groupId }: { groupId: number }) => {
     retry: 0,
   });
 
+  const dehydratedState = dehydrate(queryClient);
+
   return (
     <>
       <ReplyForm />
@@ -41,7 +47,9 @@ export const ReplySection = async ({ groupId }: { groupId: number }) => {
           </p>
         }
       >
-        <ReplyList />
+        <HydrationBoundary state={dehydratedState}>
+          <ReplyList />
+        </HydrationBoundary>
       </QueryErrorBoundary>
     </>
   );
