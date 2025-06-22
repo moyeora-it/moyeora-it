@@ -42,7 +42,7 @@ jobs:
 
             yarn cache clean
             rm -rf .next
-            yarn install --frozen-lockfile --check-files --force
+            yarn install --frozen-lockfile
             yarn build
 
             echo "Restarting PM2"
