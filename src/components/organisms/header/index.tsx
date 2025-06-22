@@ -1,6 +1,7 @@
 'use client';
 
 import { Avatar } from '@/components/atoms/avatar';
+import LogoutButton from '@/components/atoms/logout-button';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { handleError } from '@/components/error-boundary/error-handler';
 import { NotificationList } from '@/components/molecules/notification-list';
@@ -12,12 +13,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import useAuthStore from '@/stores/useAuthStore';
+import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
-import { getDisplayProfileImage, getDisplayNickname } from '@/utils/fallback';
-import LogoutButton from '@/components/atoms/logout-button';
 
 type MenuItem = {
   label: string;
@@ -26,7 +26,7 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   // { label: '프로젝트 찾기', href: '/projects' },
-  { label: '찜한 프로젝트', href: '/bookmark' },
+  { label: '찜한 모임', href: '/bookmark' },
 ];
 
 const Logo = ({ isMobile = false }: { isMobile?: boolean }) => (
@@ -50,7 +50,9 @@ const MenuLinks = ({ onClick }: { onClick?: () => void }) => {
         <Link
           key={href}
           href={href}
-          className={`text-sm font-medium text-gray-800 hover:text-primary ${pathname === href ? 'text-primary' : ''}`}
+          className={`text-sm font-medium text-gray-800 hover:text-primary ${
+            pathname === href ? 'text-primary' : ''
+          }`}
           onClick={onClick}
         >
           {label}

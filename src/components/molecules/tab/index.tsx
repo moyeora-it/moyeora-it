@@ -21,12 +21,12 @@ export const Tab = ({
 
   return (
     <Tabs defaultValue={tabList[0].value} onValueChange={handleValueChange}>
-      <TabsList className="py-3 md:py-5">
+      <TabsList className="py-3 md:py-5 -ml-2">
         {tabList.map((tab) => (
           <TabsTrigger
             key={tab.value}
             value={tab.value}
-            className="text-[20px] md:text-2xl font-extrabold"
+            className="text-[20px] md:text-2xl font-extrabold cursor-pointer hover:text-gray-600"
           >
             {tab.label}
           </TabsTrigger>

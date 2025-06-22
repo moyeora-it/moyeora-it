@@ -1,14 +1,11 @@
 'use client';
 
+import { GroupCard } from '@/components/molecules/group/group-card';
 import { Tab, TabType } from '@/components/molecules/tab';
-import {
-  BookmarkCard,
-  ContentInfo,
-} from '@/components/organisms/bookmark-card';
 import { Empty } from '@/components/organisms/empty';
 import { useFetchInView } from '@/hooks/useFetchInView';
 import { useFetchItems } from '@/hooks/useFetchItems';
-import { GroupType } from '@/types';
+import { Group, GroupType } from '@/types';
 import flattenPages from '@/utils/flattenPages';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -49,16 +46,22 @@ export function BookmarkPageClient() {
   });
 
   //ISSUE: 일단 전체 그룹 데이터 가져오기
-  const { data, isError, fetchNextPage, isLoading, isFetchingNextPage } =
-    useFetchItems<ContentInfo>({
-      url: '/v2/groups',
-      queryParams,
-      options: {
-        staleTime: 1000 * 30,
-        gcTime: 1000 * 60 * 30,
-        refetchOnWindowFocus: true,
-      },
-    });
+  const {
+    data,
+    isError,
+    fetchNextPage,
+    isLoading,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useFetchItems<Group>({
+    url: '/v2/groups',
+    queryParams,
+    options: {
+      staleTime: 1000 * 30,
+      gcTime: 1000 * 60 * 30,
+      refetchOnWindowFocus: true,
+    },
+  });
 
   const { ref } = useFetchInView({
     fetchNextPage,
@@ -70,7 +73,7 @@ export function BookmarkPageClient() {
   });
 
   const items = flattenPages(data.pages);
-  const bookmarkItems = items.filter((item) => item.isBookmark);
+  const bookmarkItems = items.filter((item) => !item.isBookmark);
 
   // 탭 변경 핸들러
   const handleValueChange = (value: GroupType) => {
@@ -90,31 +93,43 @@ export function BookmarkPageClient() {
           height={50}
         />
         <div className="flex flex-col gap-2 justify-center">
-          <h2 className="text-xl font-bold">찜한 그룹</h2>
+          <h2 className="text-xl font-bold">찜한 모임</h2>
           <p className="text-gray-600">마감되기 전에 지금 바로 참여해보세요!</p>
         </div>
       </section>
       <main>
         <Tab tabList={tabList} onValueChange={handleValueChange}>
           <div className="flex flex-col gap-4">
-            {isError && <div>에러가 발생했습니다.</div>}
+            {isError && (
+              <Empty
+                mainText="찜한 모임을 불러오는 중 문제가 발생했습니다."
+                className="mt-[100px]"
+              />
+            )}
             {isLoading ? (
               <CardSkeleton />
             ) : bookmarkItems.length === 0 && !isError ? (
               <Empty
-                mainText="아직 찜한 프로젝트가 없어요."
-                subText="관심있는 프로젝트를 찜해보세요!"
+                mainText="아직 찜한 모임이 없어요."
+                subText="관심있는 모임을 찜해보세요!"
                 className="mt-[100px]"
               />
             ) : (
-              bookmarkItems.map((item: ContentInfo, index: number) => (
-                <div
-                  key={item.id}
-                  ref={index === bookmarkItems.length - 1 ? ref : undefined}
-                >
-                  <BookmarkCard info={item} />
-                </div>
-              ))
+              <>
+                <ul className="grid mt-8 gap-4 md:grid-cols-2 xl:grid-cols-4">
+                  {items.map((group) => (
+                    <li key={group.id}>
+                      <GroupCard item={group} />
+                    </li>
+                  ))}
+                </ul>
+                {hasNextPage && !isFetchingNextPage && (
+                  <div
+                    ref={ref}
+                    className="h-2 -translate-y-300 bg-transparent"
+                  />
+                )}
+              </>
             )}
           </div>
         </Tab>
