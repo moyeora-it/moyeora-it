@@ -102,7 +102,7 @@ export const GroupDetailCard = ({
           <div className="flex justify-between">
             <div className="flex">
               {info.group.participants
-                .slice(0, 3)
+                .slice(0, 5)
                 .map(({ userId, profileImage, email, nickname }, index) => (
                   <Avatar
                     key={userId}
@@ -115,7 +115,7 @@ export const GroupDetailCard = ({
                 ))}
               <ParticipantListModal
                 participants={info.group.participants}
-                className={`z-50 ${
+                className={`z-100 ${
                   info.group.participants.length > 0 ? '-ml-3' : ''
                 }`}
               />
@@ -128,7 +128,7 @@ export const GroupDetailCard = ({
 };
 
 const getZIndexClass = (index: number) => {
-  const zIndexMap = ['z-10', 'z-20', 'z-30'];
+  const zIndexMap = ['z-10', 'z-20', 'z-30', 'z-40', 'z-50'];
   return zIndexMap[index] ?? 'z-0';
 };
 
