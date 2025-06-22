@@ -43,8 +43,10 @@ jobs:
             git pull origin ${{ github.ref_name }}
 
             df -h
+            rm -rf ~/.cache/yarn
+            yarn cache clean
+
             yarn install --frozen-lockfile --no-cache --network-timeout 1800000
-            yarn build
 
             keep_alive() { while true; do echo "⏳ still building..."; sleep 60; done; }
             keep_alive &
