@@ -20,12 +20,8 @@ export const ReplyThread = ({ parentReplyId }: { parentReplyId: number }) => {
       setIsOpen(true);
       setTargetReply({ targetRereplyId: notificationTargetRereplyId });
     }
-  }, [
-    notificationTargetReplyId,
-    notificationTargetRereplyId,
-    parentReplyId,
-    setTargetReply,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationTargetReplyId, notificationTargetRereplyId, parentReplyId]);
 
   const toggleRereplyListHandler = () => {
     setTargetReply({ targetReplyId: null, targetRereplyId: null });

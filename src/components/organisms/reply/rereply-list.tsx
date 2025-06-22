@@ -12,13 +12,15 @@ type RereplyListProps = {
   parentReplyId: number;
 };
 
+const DATA_SIZE = 20;
+
 export const RereplyList = ({ parentReplyId }: RereplyListProps) => {
   const { groupId } = useParams();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchItems<Reply & { parentId: number }>({
       url: `/v2/groups/${groupId}/replies/${parentReplyId}`,
       queryParams: {
-        size: 10,
+        size: DATA_SIZE,
       },
       options: {
         staleTime: 0,
@@ -28,11 +30,13 @@ export const RereplyList = ({ parentReplyId }: RereplyListProps) => {
   const { ref } = useFetchInView({
     fetchNextPage,
     isLoading,
+    isFetchingNextPage,
   });
 
   const { itemRefs: rereplyRefs, bottomRef } = useReplyScrollIntoView({
     data,
     replyType: 'rereply',
+    hasNextPage,
   });
 
   const rereplies = flattenPages(data.pages).filter(

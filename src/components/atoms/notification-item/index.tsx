@@ -50,7 +50,7 @@ const NotificationItemComponent = ({
           {notification.message}
         </p>
         <span className="text-xs text-gray-400">
-          {formatRelativeTime(notification.createdAt)}
+          {formatRelativeTime(notification.createdAt.toString())}
         </span>
       </div>
       {!notification.isRead && (
