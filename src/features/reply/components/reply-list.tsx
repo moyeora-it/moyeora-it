@@ -6,6 +6,7 @@ import { useFetchInView } from '@/hooks/useFetchInView';
 import { useFetchItems } from '@/hooks/useFetchItems';
 import { ReplyItem } from './reply-item';
 
+import { Loading } from '@/components/organisms/loading';
 import { useTargetReplyStore } from '@/stores/useTargetReply';
 import { Reply } from '@/types';
 import flattenPages from '@/utils/flattenPages';
@@ -52,6 +53,22 @@ export const ReplyList = () => {
   });
 
   const replies = flattenPages(data.pages);
+
+  if (isLoading) {
+    return (
+      <div className="my-15">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (replies.length === 0) {
+    return (
+      <div className="my-15 text-center text-gray-500">
+        아직 댓글이 없습니다.
+      </div>
+    );
+  }
 
   return (
     <div className="my-15">
