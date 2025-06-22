@@ -1,10 +1,10 @@
 'use client';
 
-import { RereplyFormToggle } from '@/components/molecules/reply/rereply-form-toggle';
-import { RereplyList } from '@/components/organisms/reply/rereply-list';
-import { useTargetReplyParams } from '@/hooks/useTargetReplyParams ';
+import { useTargetReplyParams } from '@/features/reply/hooks/useTargetReplyParams ';
 import { useTargetReplyStore } from '@/stores/useTargetReply';
 import { useEffect, useState } from 'react';
+import { RereplyFormToggle } from './rereply-form-toggle';
+import { RereplyList } from './rereply-list';
 
 export const ReplyThread = ({ parentReplyId }: { parentReplyId: number }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);

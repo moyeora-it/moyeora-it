@@ -1,10 +1,10 @@
 'use client';
 
-import { ReplyItem } from '@/components/organisms/reply/reply-item';
+import { useReplyScrollIntoView } from '@/features/reply/hooks/useReplyScrollIntoView';
+import { useTargetReplyParams } from '@/features/reply/hooks/useTargetReplyParams ';
 import { useFetchInView } from '@/hooks/useFetchInView';
 import { useFetchItems } from '@/hooks/useFetchItems';
-import { useReplyScrollIntoView } from '@/hooks/useReplyScrollIntoView';
-import { useTargetReplyParams } from '@/hooks/useTargetReplyParams ';
+import { ReplyItem } from './reply-item';
 
 import { useTargetReplyStore } from '@/stores/useTargetReply';
 import { Reply } from '@/types';

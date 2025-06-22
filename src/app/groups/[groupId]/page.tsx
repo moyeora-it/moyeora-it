@@ -2,7 +2,8 @@ import { GroupDescription } from '@/components/atoms/group-description';
 import { GroupActionButtons } from '@/components/molecules/gorup-action-buttons';
 import { Empty } from '@/components/organisms/empty';
 import { GroupDetailCard } from '@/components/organisms/group-detail-card';
-import { ReplySection } from '@/components/organisms/reply/reply-section';
+import { ReplySection } from '@/features/reply/components/reply-section';
+
 import { GroupDetail } from '@/types';
 import { getAuthCookieHeader } from '@/utils/cookie';
 import { isBeforeToday } from '@/utils/dateUtils';

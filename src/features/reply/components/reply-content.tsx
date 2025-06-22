@@ -1,7 +1,6 @@
 'use client';
 
 import { request } from '@/api/request';
-import { ReplyMeta } from '@/components/molecules/reply/reply-meta';
 import { Button } from '@/components/ui/button';
 import useAuthStore from '@/stores/useAuthStore';
 import { Reply } from '@/types';
@@ -9,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { ReplyMeta } from './reply-meta';
 
 type ReplyContentProps = Reply & { parentId?: number; onDelete?: () => void };
 

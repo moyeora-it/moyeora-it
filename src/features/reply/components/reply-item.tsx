@@ -1,5 +1,5 @@
-import { ReplyContent } from '@/components/molecules/reply/reply-content';
 import { Reply } from '@/types';
+import { ReplyContent } from './reply-content';
 import { ReplyThread } from './reply-thread';
 
 export const ReplyItem = ({

@@ -1,8 +1,8 @@
 'use client';
 
+import { useReplyScrollIntoView } from '@/features/reply/hooks/useReplyScrollIntoView';
 import { useFetchInView } from '@/hooks/useFetchInView';
 import { useFetchItems } from '@/hooks/useFetchItems';
-import { useReplyScrollIntoView } from '@/hooks/useReplyScrollIntoView';
 import { Reply } from '@/types';
 import flattenPages from '@/utils/flattenPages';
 import { useParams } from 'next/navigation';

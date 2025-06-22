@@ -1,5 +1,5 @@
-import { ReplyForm } from '@/components/molecules/reply/reply-form';
 import { QueryErrorBoundary } from '@/components/query-error-boundary';
+import { ReplyForm } from './reply-form';
 import { ReplyList } from './reply-list';
 
 export const ReplySection = () => {
