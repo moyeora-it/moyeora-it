@@ -40,7 +40,8 @@ jobs:
             git reset --hard origin/${{ github.ref_name }}
             git pull origin ${{ github.ref_name }}
 
-            yarn install --frozen-lockfile
+            df -h
+            yarn install --frozen-lockfile --no-cache --network-timeout 600000
             yarn build
 
             echo "Restarting PM2"
