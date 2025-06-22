@@ -1,7 +1,7 @@
 'use client';
 
 import { request } from '@/api/request';
-import { BookmarkButton } from '@/components/atoms/bookmark-button';
+import { BookmarkButton } from '@/features/bookmark/components/bookmark-button';
 import useAuthStore from '@/stores/useAuthStore';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
