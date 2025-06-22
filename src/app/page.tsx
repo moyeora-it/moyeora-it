@@ -84,10 +84,6 @@ export default async function Home({
             🔥 인기글
           </div>
           <RecommendGroup />
-          {/* <div className="flex gap-2 absolute right-0">
-          <SearchInput />
-          <WriteGroupButton />
-        </div> */}
           <QueryErrorBoundary
             fallback={
               <div>
