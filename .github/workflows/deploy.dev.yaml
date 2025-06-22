@@ -40,8 +40,6 @@ jobs:
             git reset --hard origin/${{ github.ref_name }}
             git pull origin ${{ github.ref_name }}
 
-            yarn cache clean
-            rm -rf .next
             yarn install --frozen-lockfile
             yarn build
 
