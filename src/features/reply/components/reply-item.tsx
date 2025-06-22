@@ -1,6 +1,6 @@
 import { Reply } from '@/types';
 import { ReplyContent } from './reply-content';
-import { ReplyThread } from './reply-thread';
+import { RereplySection } from './rereply-section';
 
 export const ReplyItem = ({
   content,
@@ -10,7 +10,7 @@ export const ReplyItem = ({
   deleted,
 }: Reply) => {
   return (
-    <div className="border-2 rounded-lg">
+    <section className="border-2 rounded-lg">
       <ReplyContent
         content={content}
         writer={writer}
@@ -18,7 +18,7 @@ export const ReplyItem = ({
         replyId={replyId}
         deleted={deleted}
       />
-      <ReplyThread parentReplyId={replyId} />
-    </div>
+      <RereplySection parentReplyId={replyId} />
+    </section>
   );
 };

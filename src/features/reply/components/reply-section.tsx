@@ -4,7 +4,10 @@ import { ReplyList } from './reply-list';
 
 export const ReplySection = () => {
   return (
-    <>
+    <div className="flex flex-col gap-10">
+      <h2 className="text-2xl font-bold pb-6 border-b-2 border-gray-100">
+        댓글
+      </h2>
       <ReplyForm />
       <QueryErrorBoundary
         fallback={
@@ -15,6 +18,6 @@ export const ReplySection = () => {
       >
         <ReplyList />
       </QueryErrorBoundary>
-    </>
+    </div>
   );
 };

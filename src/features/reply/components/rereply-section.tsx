@@ -6,7 +6,11 @@ import { useEffect, useState } from 'react';
 import { RereplyFormToggle } from './rereply-form-toggle';
 import { RereplyList } from './rereply-list';
 
-export const ReplyThread = ({ parentReplyId }: { parentReplyId: number }) => {
+export const RereplySection = ({
+  parentReplyId,
+}: {
+  parentReplyId: number;
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { notificationTargetReplyId, notificationTargetRereplyId } =
     useTargetReplyParams();
@@ -29,7 +33,7 @@ export const ReplyThread = ({ parentReplyId }: { parentReplyId: number }) => {
   };
 
   return (
-    <div>
+    <section>
       <div>
         <div className="flex justify-between mb-2 pt-3 px-5">
           <div className="font-semibold text-gray-500">대댓글</div>
@@ -47,6 +51,6 @@ export const ReplyThread = ({ parentReplyId }: { parentReplyId: number }) => {
         openRereplyList={toggleRereplyListHandler}
         isOpenRereplyList={isOpen}
       />
-    </div>
+    </section>
   );
 };

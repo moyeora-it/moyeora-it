@@ -54,7 +54,7 @@ export const ReplyList = () => {
   const replies = flattenPages(data.pages);
 
   return (
-    <section className="my-15">
+    <div className="my-15">
       <ul className="flex flex-col gap-10">
         {replies.map((reply) => (
           <li
@@ -72,6 +72,6 @@ export const ReplyList = () => {
       {hasNextPage && !isFetchingNextPage && (
         <div ref={ref} className="h-2 -translate-y-100 bg-transparent" />
       )}
-    </section>
+    </div>
   );
 };

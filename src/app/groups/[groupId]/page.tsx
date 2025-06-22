@@ -155,7 +155,7 @@ export default async function GroupDetailPage({
         <div className="bg-gray-50 items-center py-15 px-5 sm:px-10">
           <GroupDetailCard info={data} isRecruiting={isRecruiting} />
         </div>
-        <div className="mx-auto flex flex-col gap-10 w-full max-w-[900px] max-[900px]:px-10 px-6">
+        <div className="mx-auto flex flex-col gap-15 w-full max-w-[900px] max-[900px]:px-10 px-6">
           <GroupDescription
             description={group.description}
             groupType={group.type}

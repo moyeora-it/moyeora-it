@@ -110,13 +110,13 @@ export const ReplyContent = ({
           className="max-h-20 w-full border-2 border-slate-800 rounded-sm p-3 resize-none"
         />
       ) : (
-        <p
+        <h3
           className={`${
             isLocallyDeleted ? 'text-gray-500' : ''
           } break-words whitespace-pre-wrap`}
         >
           {isLocallyDeleted ? '삭제된 댓글입니다.' : content}
-        </p>
+        </h3>
       )}
     </div>
   );
