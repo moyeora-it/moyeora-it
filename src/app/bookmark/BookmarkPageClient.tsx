@@ -65,6 +65,8 @@ export function BookmarkPageClient() {
 
   const { ref } = useFetchInView({
     fetchNextPage,
+    isLoading,
+    isFetchingNextPage,
     options: {
       rootMargin: '50px',
     },

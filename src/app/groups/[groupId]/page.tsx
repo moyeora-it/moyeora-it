@@ -1,12 +1,13 @@
 import { GroupDescription } from '@/components/atoms/group-description';
 import { GroupActionButtons } from '@/components/molecules/gorup-action-buttons';
-import { GroupDetaiilCard } from '@/components/organisms/group-detail-card';
+import { Empty } from '@/components/organisms/empty';
+import { GroupDetailCard } from '@/components/organisms/group-detail-card';
 import { ReplySection } from '@/components/organisms/reply/reply-section';
 import { GroupDetail } from '@/types';
 import { getAuthCookieHeader } from '@/utils/cookie';
 import { isBeforeToday } from '@/utils/dateUtils';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { GroupDetailError } from './group-detail-error';
 
 type GroupDetailResponse = {
   status: {
@@ -21,11 +22,72 @@ type GroupDetailPageProps = {
   params: Promise<{ groupId: string }>;
 };
 
+const convertHtmlToPlainText = (html: string) => {
+  return html
+    .replace(/<h[1-6][^>]*>(.*?)<\/h[1-6]>/gi, '$1. ') // 헤딩은 강조
+    .replace(/<p[^>]*>(.*?)<\/p>/gi, '$1 ') // 단락 유지
+    .replace(/<[^>]*>/g, '') // 나머지 태그 제거
+    .replace(/\s+/g, ' ') // 공백 정리
+    .trim();
+};
+
+const fallbackMetadata: Metadata = {
+  title: '404 | 모여라-IT',
+  description: '존재하지 않는 모임입니다.',
+  openGraph: {
+    title: '404 | 모여라-IT',
+    description: '존재하지 않는 모임입니다.',
+    images: [{ url: '/logos/logo-img.svg' }],
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: GroupDetailPageProps): Promise<Metadata> {
+  const groupId = Number((await params).groupId);
+  const cookieHeaderValue = await getAuthCookieHeader();
+
+  let group;
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/groups/${groupId}`,
+      {
+        headers: {
+          Cookie: cookieHeaderValue,
+        },
+      },
+    );
+
+    if (!response.ok) return fallbackMetadata;
+
+    const data: GroupDetailResponse = await response.json();
+
+    group = data?.items?.group;
+  } catch {
+    return fallbackMetadata;
+  }
+
+  if (!group) return fallbackMetadata;
+
+  const plainDescription = convertHtmlToPlainText(group.description);
+
+  return {
+    title: `${group.title} | 모여라-IT`,
+    description: plainDescription,
+    openGraph: {
+      title: `${group.title} | 모여라-IT`,
+      description: plainDescription,
+      images: [{ url: '/logos/logo-img.svg' }],
+    },
+  };
+}
+
 export default async function GroupDetailPage({
   params,
 }: GroupDetailPageProps) {
   const groupId = Number((await params).groupId);
-  const cookieString = await getAuthCookieHeader();
+  const cookieHeaderValue = await getAuthCookieHeader();
 
   let response: Response;
 
@@ -34,7 +96,7 @@ export default async function GroupDetailPage({
       `${process.env.NEXT_PUBLIC_API_BASE_URL}/v2/groups/${groupId}`,
       {
         headers: {
-          Cookie: cookieString,
+          Cookie: cookieHeaderValue,
         },
         next: { tags: [`group-detail-${groupId}`] },
       },
@@ -42,7 +104,11 @@ export default async function GroupDetailPage({
   } catch (error) {
     console.error('Fetch 요청 실패:', error);
     return (
-      <GroupDetailError message="서버와 연결할 수 없습니다. 잠시 후 다시 시도해주세요." />
+      <Empty
+        mainText="서버와 연결할 수 없습니다."
+        subText="잠시 후 다시 시도해주세요."
+        className="text-center mt-40 mx-5"
+      />
     );
   }
 
@@ -52,9 +118,7 @@ export default async function GroupDetailPage({
 
   if (!response.ok) {
     console.error('응답 상태 오류:', response.status);
-    return (
-      <GroupDetailError message="모임 정보를 불러오는 데 문제가 발생했습니다." />
-    );
+    return <Empty mainText="모임 정보를 불러오는 데 문제가 발생했습니다." />;
   }
 
   let responseBody: GroupDetailResponse;
@@ -63,9 +127,7 @@ export default async function GroupDetailPage({
     responseBody = await response.json();
   } catch (err) {
     console.error('JSON 파싱 오류:', err);
-    return (
-      <GroupDetailError message="모임 정보를 처리하는 중 문제가 발생했습니다." />
-    );
+    return <Empty mainText="모임 정보를 처리하는 중 문제가 발생했습니다." />;
   }
 
   if (!responseBody.items) {
@@ -74,7 +136,7 @@ export default async function GroupDetailPage({
 
   if (!responseBody.status.success) {
     console.error('API 성공 상태 false:', responseBody.status);
-    return <GroupDetailError message="모임 정보를 불러오는 데 실패했습니다." />;
+    return <Empty mainText="모임 정보를 불러오는 데 실패했습니다." />;
   }
 
   const data = responseBody.items;
@@ -90,7 +152,7 @@ export default async function GroupDetailPage({
     <>
       <main className="mx-auto flex flex-col gap-10 mb-15">
         <div className="bg-gray-50 items-center py-15 px-5 sm:px-10">
-          <GroupDetaiilCard info={data} isRecruiting={isRecruiting} />
+          <GroupDetailCard info={data} isRecruiting={isRecruiting} />
         </div>
         <div className="mx-auto flex flex-col gap-10 w-full max-w-[900px] max-[900px]:px-10 px-6">
           <GroupDescription

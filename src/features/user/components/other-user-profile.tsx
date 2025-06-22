@@ -10,6 +10,7 @@ import { ToggleFollowButton } from '@/features/user/follow/components/toggle-fol
 import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
 import { CommonResponse } from '@/types/response';
 import useAuthStore from '@/stores/useAuthStore';
+import { UserProfileLoading } from '@/features/user/components/user-profile-loading';
 
 /**
  * 현재 로그인 한 유저가 아닌 다른 유저의 프로필 컴포넌트
@@ -42,7 +43,7 @@ export const OtherUserProfile = () => {
 
   const user = userResponse?.data;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <UserProfileLoading />;
   if (isError) return <div>Error</div>;
 
   // 유저가 존재하지 않으면, 404 Not Found 페이지로 이동한다.
@@ -82,7 +83,7 @@ export const OtherUserProfile = () => {
           </div>
           <div className="flex flex-col gap-y-1 min-w-0">
             <div className="flex gap-x-2 min-w-0">
-              <span className="text-sm font-medium shrink-0">Skills</span>
+              <span className="text-sm font-medium shrink-0">기술스택</span>
               <ul className="flex gap-x-3 overflow-x-auto flex-nowrap flex-1 min-w-0 scrollbar-hide">
                 {skills?.length === 0 && (
                   <p className="text-gray-700 text-sm">
@@ -100,7 +101,7 @@ export const OtherUserProfile = () => {
               </ul>
             </div>
             <div className="flex gap-x-1.5">
-              <span className="text-sm font-medium min-w-fit">E-mail</span>
+              <span className="text-sm font-medium min-w-fit">이메일</span>
               <span className="text-sm font-normal text-gray-700 truncate">
                 {email}
               </span>

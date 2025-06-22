@@ -1,6 +1,7 @@
 'use client';
 
 import { Avatar } from '@/components/atoms/avatar';
+import LogoutButton from '@/components/atoms/logout-button';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { handleError } from '@/components/error-boundary/error-handler';
 import { NotificationList } from '@/components/molecules/notification-list';
@@ -79,24 +80,6 @@ const MobileMenuLinks = ({ onClick }: { onClick?: () => void }) => {
   );
 };
 
-const UserProfile = ({
-  userId,
-  profileImage,
-  fallback,
-}: {
-  userId: number;
-  profileImage: string;
-  fallback: string;
-}) => (
-  <Link href={`/users/${userId}`}>
-    <Avatar
-      imageSrc={profileImage}
-      fallback={fallback}
-      className="rounded-full w-8 h-8"
-    />
-  </Link>
-);
-
 const NotificationWithBoundary = () => (
   <ErrorBoundary
     fallback={({ error, resetErrorBoundary }) =>
@@ -132,14 +115,28 @@ export const Header = () => {
         {isLoggedIn ? (
           <>
             <NotificationWithBoundary />
-            <UserProfile
-              userId={userId}
-              profileImage={profileImage}
-              fallback={getDisplayNickname(
-                user?.nickname ?? '',
-                user?.email ?? '',
-              )}
-            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button" className="cursor-pointer">
+                  <Avatar
+                    imageSrc={profileImage}
+                    fallback={getDisplayNickname(
+                      user?.nickname ?? '',
+                      user?.email ?? '',
+                    )}
+                    className="rounded-full w-8 h-8"
+                  />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href={`/users/${userId}`}>마이 페이지</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <LogoutButton />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         ) : (
           <Link href="/login">
@@ -174,9 +171,20 @@ export const Header = () => {
                   <Link href="/login">로그인 및 회원가입</Link>
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem asChild onClick={() => setIsMenuOpen(false)}>
-                  <Link href={`/users/${userId}`}>마이 페이지</Link>
-                </DropdownMenuItem>
+                <>
+                  <DropdownMenuItem
+                    asChild
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Link href={`/users/${userId}`}>마이 페이지</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogoutButton />
+                  </DropdownMenuItem>
+                </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>

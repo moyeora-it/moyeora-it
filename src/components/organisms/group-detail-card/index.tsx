@@ -11,15 +11,15 @@ import { formatYearMonthDayWithDot } from '@/utils/dateUtils';
 import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
 import Link from 'next/link';
 
-type GroupDetaiilCardProps = {
+type GroupDetailCardProps = {
   info: GroupDetail;
   isRecruiting: boolean;
 };
 
-export const GroupDetaiilCard = ({
+export const GroupDetailCard = ({
   info,
   isRecruiting,
-}: GroupDetaiilCardProps) => {
+}: GroupDetailCardProps) => {
   return (
     <article className="flex flex-col gap-5 w-full items-center">
       <header className="flex flex-col gap-8 w-full max-w-[900px] px-3">

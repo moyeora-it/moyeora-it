@@ -102,7 +102,7 @@ export type Notification = {
   isRead: boolean; // 읽음 여부 default: false
   read?: boolean; // TODO: socket, notification 타입 통일 후 제거
   created_at?: Date; // 알람 생성날짜
-  createdAt: string; // 알람 생성날짜
+  createdAt: Date; // 알람 생성날짜
   type: eNotification;
   url: string | null; // 연결되는 url -> NotificationType에 따라 필요한 부분 다름
 };

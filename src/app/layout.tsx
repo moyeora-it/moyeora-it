@@ -9,6 +9,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: '모여라-IT',
   description: '개발자들의 스터디, 사이트 프로젝트 모집 플랫폼',
+  icons: {
+    icon: '/logos/logo-img.svg',
+  },
 };
 
 export default function RootLayout({

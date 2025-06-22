@@ -6,16 +6,17 @@ export const routes = {
   login: '/login',
   register: '/register',
   // (user)
-  userPage: (id: string) => `/users/${id}`,
-  followers: (id: string) => `/users/${id}/followers`,
-  followings: (id: string) => `/users/${id}/followings`,
-  userGroups: (id: string) => `/users/${id}/groups`,
+  userPage: (userId: string) => `/users/${userId}`,
+  followers: (userId: string) => `/users/${userId}/social/followers`,
+  followings: (userId: string) => `/users/${userId}/social/followings`,
+  userCreatedGroups: (userId: string) => `/users/${userId}/groups/created`,
+  userEndedGroups: (userId: string) => `/users/${userId}/groups/ended`,
 
   // bookmark
   bookmark: '/bookmark',
 
   // group
-  groupDetail: (id: number) => `/groups/${id}`,
+  groupDetail: (groupId: number) => `/groups/${groupId}`,
 
   // write
   write: '/write',

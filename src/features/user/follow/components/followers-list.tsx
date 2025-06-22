@@ -1,24 +1,23 @@
 'use client';
 
-import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
-import { useFetchItems } from '@/hooks/useFetchItems';
-import { useFetchInView } from '@/hooks/useFetchInView';
 import { Avatar } from '@/components/atoms/avatar';
-import { ToggleFollowButton } from '@/features/user/follow/components/toggle-follow-button';
-import useAuthStore from '@/stores/useAuthStore';
-import { User } from '@/types/index';
-import { RemoveFollowerButton } from '@/features/user/follow/components/remove-follower-button';
-import flattenPages from '@/utils/flattenPages';
-import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
-import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Page } from '@/utils/flattenPages';
 import FollowListItemsLoading from '@/features/user/follow/components/follow-list-items-loading';
+import { RemoveFollowerButton } from '@/features/user/follow/components/remove-follower-button';
+import { ToggleFollowButton } from '@/features/user/follow/components/toggle-follow-button';
+import { useFetchInView } from '@/hooks/useFetchInView';
+import { useFetchItems } from '@/hooks/useFetchItems';
+import useAuthStore from '@/stores/useAuthStore';
+import { User } from '@/types/index';
+import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
+import flattenPages, { Page } from '@/utils/flattenPages';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useParams, useSearchParams } from 'next/navigation';
 
 export const FollowersList = () => {
   const { id } = useParams();
@@ -29,7 +28,7 @@ export const FollowersList = () => {
 
   const search = searchParams.get('search');
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useFetchItems<User>({
       url: `/v1/follow/${id}/followers`,
       ...(search && { queryParams: { name: search } }),
@@ -45,7 +44,8 @@ export const FollowersList = () => {
 
   const { ref } = useFetchInView({
     fetchNextPage,
-    isLoading: isFetchingNextPage,
+    isLoading,
+    isFetchingNextPage,
   });
 
   const followersList = flattenPages<User>(data.pages);
@@ -54,7 +54,9 @@ export const FollowersList = () => {
     <div className="flex flex-col gap-y-6 pb-4 rounded-b-2xl flex-1 mt-3">
       <div className="flex items-center">
         <div className="flex gap-x-1 items-center">
-          <span className="text-sm font-semibold text-gray-500">총 팔로워 수 : </span>
+          <span className="text-sm font-semibold text-gray-500">
+            총 팔로워 수 :{' '}
+          </span>
           <span className="text-sm font-semibold text-gray-500">
             {followersCount ?? 0}
           </span>
@@ -118,7 +120,11 @@ export const FollowersList = () => {
                               userId={String(userId)}
                               isFollowing={isFollowing}
                               usedIn="followers"
-                              className={`shadow-none hover:bg-white! ${isFollowing ? 'text-red-600 [&>svg]:text-red-600!' : 'text-black [&_svg]:text-black'} bg-white h-[28px] cursor-pointer text-sm font-semibold rounded-lg py-1 px-3 gap-x-[6px]`}
+                              className={`shadow-none hover:bg-white! ${
+                                isFollowing
+                                  ? 'text-red-600 [&>svg]:text-red-600!'
+                                  : 'text-black [&_svg]:text-black'
+                              } bg-white h-[28px] cursor-pointer text-sm font-semibold rounded-lg py-1 px-3 gap-x-[6px]`}
                             />
                           )}
                         </DropdownMenuContent>

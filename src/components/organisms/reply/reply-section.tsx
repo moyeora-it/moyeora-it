@@ -1,5 +1,3 @@
-'use client';
-
 import { ReplyForm } from '@/components/molecules/reply/reply-form';
 import { QueryErrorBoundary } from '@/components/query-error-boundary';
 import { ReplyList } from './reply-list';

@@ -6,19 +6,21 @@ export const useFetchInView = ({
   fetchNextPage,
   options,
   isLoading,
+  isFetchingNextPage,
 }: {
   fetchNextPage: (options?: FetchNextPageOptions) => void;
   options?: IntersectionOptions;
   isLoading?: boolean;
+  isFetchingNextPage?: boolean;
 }) => {
   const { ref, inView } = useInView({ ...options });
 
   useEffect(() => {
-    if (inView && !isLoading) {
+    if (inView && !isLoading && !isFetchingNextPage) {
       fetchNextPage();
     }
     // eslint-disable-next-line
-  }, [inView, isLoading]);
+  }, [inView]);
 
   return { ref };
 };
