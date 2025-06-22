@@ -1,75 +1,113 @@
-# 모여라IT 
+# 모여라IT
 ## 프로젝트 소개
 
-### 시작하기
 
-```bash
+🔗 https://my.sjcpop.com/
 
-yarn dev
+개발자를 위한 스터디, 프로젝트 모집 서비스
 
+유저가 사용중인 기술과 포지션을 설정하여 목적에 부합한 스터디, 프로젝트에 더 쉽게 참가할 수 있습니다.
+
+[메인 사진]
+
+## 설치 및 실행
+
+
+```jsx
+$ yarn install
+$ yarn dev
 ```
 
-- 배포 url
-- test id/password
+### 1. 로컬 개발 환경에서 쿠키 사용을 위한 설정
 
-## 아키텍처
+`SameSite=None` 및 `Secure=true` 쿠키를 정상적으로 사용하려면 다음과 같은 환경 구성이 필요합니다.
 
-**화면 구성/API**
+### ✅ `SameSite=None` 대응 – 커스텀 도메인 설정
 
-- 파일 구조도
+`SameSite=None` 속성이 설정된 쿠키는 **도메인이 다를 경우**에도 전송되므로, 로컬에서도 실제 배포 도메인(`sjcpop.com`)과 유사한 도메인을 사용해야 합니다.
 
-### components - atomic 디자인 : 중복되는 컴포넌트들 간의 재사용성을 높이기 위해 채택하였습니다. 
+1. `/etc/hosts` 파일 수정:
+    
+    ```bash
+    $ sudo vi /etc/hosts
+    ```
+    
+2. 다음 라인을 추가:
+    
+    ```bash
+    127.0.0.1 local.sjcpop.com
+    ```
+    
+
+### ✅ `Secure=true` 대응 – HTTPS 개발 서버 실행
+
+`Secure=true`가 설정된 쿠키는 **HTTPS 환경에서만** 전송됩니다. 로컬 개발 서버도 HTTPS로 실행해야 합니다.
+
+1. Next.js를 HTTPS로 실행:
+    
+    ```bash
+    $ yarn install
+    $ yarn dev // => next dev --experimental-https
+    ```
+    
+2. 브라우저에서 접속: https://local.sjcpop.com:3000
+
+위 설정을 통해 로컬 환경에서도 실제 배포 환경처럼 쿠키 기반 인증과 API 요청을 테스트할 수 있습니다.
+
+### 1-2. 환경변수 설정
+
+`.env` 파일 생성 후 아래와 같이 추가합니다.
+
+```jsx
+NEXT_PUBLIC_API_BASE_URL=https://my-api.sjcpop.com/api
 ```
-─ components/
-  ├── ui/ -> shadcn/ui 
-  ├── atoms/  -> 더 이상 분리될 수 없는 component
-  ├── molecules/ -> atoms가 조합된 UI, 단일 기능을 수행하는 컴포넌트 
-  ├── organisms/ -> molecules & atoms가 조합된 UI 영역, 페이지 내에서 독립적인 구조를 가짐
-  └── templates/
 
+### 1-1. 사용 ID, PW
+
+- ID
+- Password
+
+## **아키텍처**
+
+
+```jsx
+📦src
+ ┣ 📂__mocks__
+ ┣ 📂actions
+ ┣ 📂api
+ ┣ 📂app
+ ┃ ┣ 📂bookmark
+ ┣ 📂components
+ ┃ ┣ 📂atoms
+ ┃ ┣ 📂error-boundary
+ ┃ ┣ 📂error-fallback
+ ┃ ┣ 📂molecules
+ ┃ ┣ 📂organisms
+ ┃ ┗ 📂ui
+ ┣ 📂features
+ ┣ 📂hooks
+ ┣ 📂lib
+ ┣ 📂mocks
+ ┃ ┣ 📂handler
+ ┣ 📂providers
+ ┣ 📂stores
+ ┣ 📂types
+ ┗ 📂utils
 ```
 
-## 주요 기능
+components
 
-- **프로젝트 주요 기능**
-- 프론트의 경우 이미지를 함께 첨부해도 좋습니다.
+- atomic 디자인 적용 : 중복되는 컴포넌트들 간의 재사용성을 높임
 
-### 그룹 만들기
+features
 
-로그인 한 유저가 정보를 입력하여 그룹을 생성할 수 있습니다.
+- 기능별로 features 폴더 안에 폴더를 구성하여 관리
 
-원하는 날짜, 그룹 타입, 기술 스택, 자동 참가 여부를 선택할 수 있습니다.
-```
-* 제목 : 30자 이하
-* 모집 마감일 : 오늘+7일부터 선택 가능합니다.
-* 모임 시작일 : 모집 마감일+1일부터 선택 가능합니다.
-* 모임 종료일 : 모임 시작일+7일부터 선택 가능합니다.
-* 정원 : 2명 ~ 30명
-* 그룹 타입 : 스터디, 프로젝트 중에 선택 가능합니다.
-* 기술 스택 : 1개 이상 중복 선택 가능합니다.
-* 상세 내용 : 10자 이상
-* 작성일자 : 오늘
-* 모임 참가 자동 수락여부
-  - 자동 수락 선택 시 주최자의 수락이 없어도 신청자가 자동으로 참가할 수 있게 됩니다.
-  - 자동 수락 미선택 시 주최자의 수락이 있는 경우에만 신청자가 참가할 수 있게 됩니다.
-```
-
-
-## 트러블 슈팅
-
-- 트러블 슈팅 경험에 대해 기술해 주세요.
-
-## 사용 기술
-
-**기술 스택, 사용 기술**
-
-- 사용한 기술과 라이브러리
-
-## 환경 변수
-.env 파일 설정해두셔야합니다. 
-
-```
-NEXT_PUBLIC_API_BASE_URL=base api server
-ACCESS_TOKEN=access token name
-REFRESH_TOKEN=refresh token name
-```
+## **사용 기술**
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+<img src="https://img.shields.io/badge/TanstackQuery-E93D2C?style=flat-square&logo=ReactQuery&logoColor=white"/>
+<img src="https://img.shields.io/badge/🐻 Zustand-5E5046?style=flat-square&logo=zustand&logoColor=white"/>
+<img src="https://img.shields.io/badge/ReactHookForm-E53E7E?style=flat-square&logo=ReactHookForm&logoColor=white"/>
+<img src="https://img.shields.io/badge/Zod-2D55FE?style=flat-square&logo=Zod&logoColor=white"/>
+<img src="https://img.shields.io/badge/Shadcn-121212?style=flat-square&logo=ShadcnUI&logoColor=white"/>
