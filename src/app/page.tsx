@@ -90,7 +90,7 @@ export default async function Home({
         </div> */}
           <QueryErrorBoundary
             fallback={
-              <div>
+              <div className="text-center text-gray-500 mt-30">
                 ⚠️ 그룹을 불러오는 중 문제가 발생했습니다. 다시 시도해주세요.
               </div>
             }
