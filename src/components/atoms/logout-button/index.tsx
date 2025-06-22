@@ -43,7 +43,7 @@ const LogoutButton = () => {
   };
 
   return (
-    <Button disabled={isPending} onClick={onClick}>
+    <Button disabled={isPending} onClick={onClick} variant="ghost" className='px-2 w-full flex justify-start rounded-sm'>
       로그아웃
     </Button>
   );

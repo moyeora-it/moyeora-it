@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { getDisplayProfileImage, getDisplayNickname } from '@/utils/fallback';
+import LogoutButton from '@/components/atoms/logout-button';
 
 type MenuItem = {
   label: string;
@@ -50,13 +51,14 @@ const MenuLinks = ({ onClick }: { onClick?: () => void }) => {
           key={href}
           href={href}
           className={`text-sm font-medium text-gray-800 hover:text-primary ${pathname === href ? 'text-primary' : ''}`}
-        onClick={onClick}
-      >
-        {label}
-      </Link>
-    ))}
-  </>
-)};
+          onClick={onClick}
+        >
+          {label}
+        </Link>
+      ))}
+    </>
+  );
+};
 
 const MobileMenuLinks = ({ onClick }: { onClick?: () => void }) => {
   const pathname = usePathname();
@@ -64,29 +66,17 @@ const MobileMenuLinks = ({ onClick }: { onClick?: () => void }) => {
     <>
       {menuItems.map(({ label, href }) => (
         <DropdownMenuItem key={href} asChild onClick={onClick}>
-        <Link href={href} className={`${pathname === href ? 'text-primary' : ''}`}>{label}</Link>
-      </DropdownMenuItem>
-    ))}
-  </>
-)};
-
-const UserProfile = ({
-  userId,
-  profileImage,
-  fallback,
-}: {
-  userId: number;
-  profileImage: string;
-  fallback: string;
-}) => (
-  <Link href={`/users/${userId}`}>
-    <Avatar
-      imageSrc={profileImage}
-      fallback={fallback}
-      className="rounded-full w-8 h-8"
-    />
-  </Link>
-);
+          <Link
+            href={href}
+            className={`${pathname === href ? 'text-primary' : ''}`}
+          >
+            {label}
+          </Link>
+        </DropdownMenuItem>
+      ))}
+    </>
+  );
+};
 
 const NotificationWithBoundary = () => (
   <ErrorBoundary
@@ -108,7 +98,6 @@ export const Header = () => {
   const userId = user?.userId ?? 0;
   const profileImage = getDisplayProfileImage(user?.profileImage ?? null);
 
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -124,14 +113,28 @@ export const Header = () => {
         {isLoggedIn ? (
           <>
             <NotificationWithBoundary />
-            <UserProfile
-              userId={userId}
-              profileImage={profileImage}
-              fallback={getDisplayNickname(
-                user?.nickname ?? '',
-                user?.email ?? '',
-              )}
-            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button" className="cursor-pointer">
+                  <Avatar
+                    imageSrc={profileImage}
+                    fallback={getDisplayNickname(
+                      user?.nickname ?? '',
+                      user?.email ?? '',
+                    )}
+                    className="rounded-full w-8 h-8"
+                  />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href={`/users/${userId}`}>마이 페이지</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <LogoutButton />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </>
         ) : (
           <Link href="/login">
@@ -166,9 +169,20 @@ export const Header = () => {
                   <Link href="/login">로그인 및 회원가입</Link>
                 </DropdownMenuItem>
               ) : (
-                <DropdownMenuItem asChild onClick={() => setIsMenuOpen(false)}>
-                  <Link href={`/users/${userId}`}>마이 페이지</Link>
-                </DropdownMenuItem>
+                <>
+                  <DropdownMenuItem
+                    asChild
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Link href={`/users/${userId}`}>마이 페이지</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogoutButton />
+                  </DropdownMenuItem>
+                </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>
