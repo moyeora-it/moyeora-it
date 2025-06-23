@@ -6,6 +6,7 @@ import { MemberInfo } from '@/features/user/group/components/member-list-modal/m
 import { useManageParticipation } from '@/features/user/group/hooks/useManageParticipation';
 import { UserSummary } from '@/types';
 import { useQuery } from '@tanstack/react-query';
+import { MemberListLoading } from '@/features/user/group/components/member-list-modal/member-list-loading';
 
 type ApplicantsListProps = {
   groupId: string;
@@ -35,11 +36,12 @@ export const ApplicantsList = ({ groupId }: ApplicantsListProps) => {
     },
     staleTime: 0,
     refetchOnWindowFocus: false,
+    gcTime: 0,
   });
 
   return (
     <div className="flex-1">
-      {isLoading && <>Loading...</>}
+      {isLoading && <MemberListLoading />}
       {isError && <>Error</>}
       {applicantsList && applicantsList.length === 0 && (
         <div className="flex flex-col items-center justify-center h-full ">

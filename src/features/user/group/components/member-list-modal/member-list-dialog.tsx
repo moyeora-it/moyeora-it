@@ -40,7 +40,7 @@ export const MemberListDialog = ({
         </DialogTrigger>
         <DialogContent className="max-w-80 h-[25rem] overflow-y-auto scrollbar-hide flex flex-col">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="mt-2">
               <span className="text-green-500">{`"${groupTitle}"`}</span> 모임의
               참여/신청자 목록
             </DialogTitle>

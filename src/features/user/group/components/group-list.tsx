@@ -35,7 +35,7 @@ export const GroupList = ({ status }: GroupListProps) => {
     useFetchItems<Group>({
       url: `/v2/groups/usergroup/${id}`,
       queryParams: {
-        type: type ?? 'study',
+        ...(status !== 'PARTICIPATING' && { type: type ?? 'study' }),
         status: 'PARTICIPATING',
         size: status !== 'ENDED' ? 10 : 50,
         ...(search && { search }),
@@ -63,6 +63,10 @@ export const GroupList = ({ status }: GroupListProps) => {
 
   if (status === 'RECRUITING') {
     groupList = groupList.filter((group) => group.createUserId === Number(id));
+  }
+
+  if (status === 'PARTICIPATING') {
+    groupList = groupList.filter((group) => !isBeforeToday(group.endDate));
   }
 
   return (
