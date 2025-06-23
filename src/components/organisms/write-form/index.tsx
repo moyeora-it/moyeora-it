@@ -87,11 +87,7 @@ const formSchema = z
     path: ['endDate'],
   });
 
-type WriteFormProps = {
-  userId: number;
-};
-
-export const WriteForm = ({ userId }: WriteFormProps) => {
+export const WriteForm = () => {
   const [isDeadlineCalendarOpen, setIsDeadlineCalendarOpen] = useState(false);
   const [isStartDateCalendarOpen, setIsStartDateCalendarOpen] = useState(false);
   const [isEndDateCalendarOpen, setIsEndDateCalendarOpen] = useState(false);
@@ -144,7 +140,7 @@ export const WriteForm = ({ userId }: WriteFormProps) => {
 
     try {
       const result = await request.post(
-        `/v2/groups?userId=${userId}`,
+        `/v2/groups`,
         { 'Content-Type': 'application/json' },
         JSON.stringify({ ...values, skills, position }),
         { credentials: 'include' },
