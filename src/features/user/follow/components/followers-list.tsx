@@ -36,6 +36,7 @@ export const FollowersList = () => {
         refetchOnMount: true,
         staleTime: 0,
         retry: 0,
+        gcTime: 0,
       },
     });
 
