@@ -38,8 +38,8 @@ const formSchema = z
       .string()
       .trim()
       .nonempty({ message: '제목을 입력해주세요.' })
-      .max(30, {
-        message: '제목이 너무 길어요. 30자 이내로 줄여주세요.',
+      .max(100, {
+        message: '제목이 너무 길어요. 100자 이내로 줄여주세요.',
       }),
     maxParticipants: z.coerce
       .number({ message: '모임의 정원을 설정해주세요.' })
@@ -87,11 +87,7 @@ const formSchema = z
     path: ['endDate'],
   });
 
-type WriteFormProps = {
-  userId: number;
-};
-
-export const WriteForm = ({ userId }: WriteFormProps) => {
+export const WriteForm = () => {
   const [isDeadlineCalendarOpen, setIsDeadlineCalendarOpen] = useState(false);
   const [isStartDateCalendarOpen, setIsStartDateCalendarOpen] = useState(false);
   const [isEndDateCalendarOpen, setIsEndDateCalendarOpen] = useState(false);
@@ -120,7 +116,6 @@ export const WriteForm = ({ userId }: WriteFormProps) => {
     reValidateMode: 'onSubmit', // submit 시에만 유효성 검사
     defaultValues: {
       title: '',
-      maxParticipants: 2,
       description: '',
       autoAllow: false,
       type: GroupType.STUDY,
@@ -145,7 +140,7 @@ export const WriteForm = ({ userId }: WriteFormProps) => {
 
     try {
       const result = await request.post(
-        `/v2/groups?userId=${userId}`,
+        `/v2/groups`,
         { 'Content-Type': 'application/json' },
         JSON.stringify({ ...values, skills, position }),
         { credentials: 'include' },

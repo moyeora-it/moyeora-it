@@ -20,12 +20,12 @@ type CreatedGroupsPageWrapperProps = {
 }
 
 type CreatedGroupsPageProps = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{
+  params: { id: string };
+  searchParams: {
     search: string;
     type: string;
     order: string;
-  }>;
+  };
 };
 
 /**
@@ -37,11 +37,13 @@ export default async function CreatedGroupsPageWrapper({
   params,
   searchParams,
 }: CreatedGroupsPageWrapperProps) {
+  const awaitedSearchParams = await searchParams;
+  const awaitedParams = await params;
   return (
-    <Suspense fallback={<GroupListLoading />} key={JSON.stringify(searchParams)}>
+    <Suspense fallback={<GroupListLoading />} key={JSON.stringify(awaitedSearchParams)}>
       <CreatedGroupsPage
-        params={params}
-        searchParams={searchParams}
+        params={awaitedParams}
+        searchParams={awaitedSearchParams}
       />
     </Suspense>
   )
@@ -51,9 +53,9 @@ const CreatedGroupsPage = async ({
   params,
   searchParams,
 }: CreatedGroupsPageProps) => {
-  const { search, type, order } = await searchParams;
+  const { search, type, order } = searchParams;
 
-  const { id } = await params;
+  const { id } = params;
 
   const cookieHeaderValue = await getAuthCookieHeader();
 

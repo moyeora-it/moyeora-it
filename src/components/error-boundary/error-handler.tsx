@@ -26,7 +26,7 @@ export const handleError = ({
     }
     
     // 인증 에러
-    if (error.message.includes('401') || error.message.toLowerCase().includes('unauthorized')) {
+    if (error.message.includes('401') || error.message.toLowerCase().includes('unauthorized') || error.message.includes('refresh 만료')) {
       return (
         <ErrorFallback error={error} resetErrorBoundary={resetErrorBoundary}>
           로그인이 필요합니다

@@ -4,6 +4,7 @@ import { request } from '@/api/request';
 import { MemberInfo } from '@/features/user/group/components/member-list-modal/member-info';
 import { UserSummary } from '@/types';
 import { useQuery } from '@tanstack/react-query';
+import { MemberListLoading } from '@/features/user/group/components/member-list-modal/member-list-loading';
 
 type ParticipantsListProps = {
   groupId: string;
@@ -31,11 +32,12 @@ export const ParticipantsList = ({ groupId }: ParticipantsListProps) => {
     },
     staleTime: 0,
     refetchOnWindowFocus: false,
+    gcTime: 0,
   });
 
   return (
     <div>
-      {isLoading && <>Loading...</>}
+      {isLoading && <MemberListLoading />}
       {isError && <>Error</>}
       {participantsList && (
         <ul className="flex flex-col gap-y-3">

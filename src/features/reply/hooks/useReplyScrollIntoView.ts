@@ -44,13 +44,16 @@ export const useReplyScrollIntoView = ({
 
   const clearTargetQueryAndState = () => {
     const params = new URLSearchParams(searchParams.toString());
+
     if (replyType === 'reply') {
       params.delete('replyId');
       setTargetReply({ targetReplyId: null });
     } else {
+      params.delete('replyId');
       params.delete('rereplyId');
       setTargetReply({ targetRereplyId: null });
     }
+
     const query = params.toString();
     const newUrl = query ? `${pathname}?${query}` : pathname;
     window.history.replaceState(null, '', newUrl);

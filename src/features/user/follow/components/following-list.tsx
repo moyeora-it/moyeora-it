@@ -33,6 +33,7 @@ export const FollowingList = () => {
         refetchOnMount: true,
         staleTime: 0,
         retry: 0,
+        gcTime: 0,
       },
     });
 

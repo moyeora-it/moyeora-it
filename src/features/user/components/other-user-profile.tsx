@@ -71,8 +71,8 @@ export const OtherUserProfile = () => {
           />
         </div>
         <div className="flex flex-col gap-y-9 mt-4 flex-1 min-w-0">
-          <div className="flex items-center justify-between md:gap-x-5 md:justify-start">
-            <span className="font-semibold">
+          <div className="flex items-center justify-between md:gap-x-5 md:justify-start flex-1">
+            <span className="font-semibold truncate">
               {getDisplayNickname(nickname, email)}
             </span>
             <ToggleFollowButton

@@ -33,9 +33,10 @@ export const useChangePassword = () => {
         description: '비밀번호가 변경되었어요',
       });
     },
-    onError() {
+    onError(error) {
+      const errInfo = JSON.parse(error.message.split('-')[1]);
       toast.error('비밀번호 변경 실패', {
-        description: '비밀번호 변경에 실패했어요. 잠시 후 다시 시도해주세요.',
+        description: errInfo.status.message,
       });
     },
   });

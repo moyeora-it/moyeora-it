@@ -21,7 +21,7 @@ export const WriteGroupButton = () => {
   };
 
   return (
-    <div className="fixed md:absolute bottom-0 md:top-0 right-0 my-6 z-10">
+    <div className="fixed md:absolute bottom-0 md:top-0 md:bottom-auto right-0 my-6 z-10">
       <Button
         onClick={writeButtonClickHandler}
         className="cursor-pointer rounded-[50%] md:hidden"

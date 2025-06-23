@@ -84,6 +84,15 @@ export const ReplyContent = ({
         <ReplyMeta writer={writer} createdAt={createdAt} />
         {isWriter && !isLocallyDeleted && (
           <div className="flex gap-2 items-center max-[500px]:w-full max-[500px]:justify-start max-[500px]:mb-5 ">
+            {isEditing && (
+              <Button
+                onClick={() => setIsEditing(false)}
+                variant="outline"
+                className="cursor-pointer"
+              >
+                취소
+              </Button>
+            )}
             <Button
               onClick={
                 isEditing ? saveButtonClickHandler : editButtonClickHandler
