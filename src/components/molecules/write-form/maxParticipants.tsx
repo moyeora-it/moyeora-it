@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { WriteForm } from '@/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 
 type TitleProps = {
@@ -15,21 +15,38 @@ type TitleProps = {
 };
 
 export const MaxParticipants = ({ form }: TitleProps) => {
-  const [maxParticipants, setMaxParticipants] = useState(2);
+  const [isTooltipOpen, setIsTooltipOpen] = useState(false);
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputBlurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
-    if (value > 30) {
-      setMaxParticipants(30);
-      return;
-    }
-    if (value < 2) {
-      setMaxParticipants(2);
+
+    if (value === 0) {
+      // 입력값이 없거나 0이면 2로 세팅
+      form.setValue('maxParticipants', 2);
       return;
     }
 
-    setMaxParticipants(value);
+    if (value < 2 || value > 30) {
+      const settedValue = Math.max(2, Math.min(30, value));
+      form.setValue('maxParticipants', settedValue);
+
+      setIsTooltipOpen(true);
+    }
   };
+
+  /**
+   * 정원 보정 후 툴팁이 3초뒤에 사라지게 하기
+   */
+
+  useEffect(() => {
+    if (isTooltipOpen) {
+      const timer = setTimeout(() => {
+        setIsTooltipOpen(false);
+      }, 3000); // 3초
+
+      return () => clearTimeout(timer);
+    }
+  }, [isTooltipOpen]);
 
   return (
     <>
@@ -42,6 +59,7 @@ export const MaxParticipants = ({ form }: TitleProps) => {
               htmlFor="maxParticipants"
               text="정원"
               info="최소 2명 ~ 최대 30명까지 가능합니다"
+              isTooltipOpen={isTooltipOpen}
             />
             <FormControl>
               <Input
@@ -51,8 +69,10 @@ export const MaxParticipants = ({ form }: TitleProps) => {
                 placeholder="정원을 입력해주세요"
                 {...field}
                 type="number"
-                onChange={inputChangeHandler}
-                value={maxParticipants}
+                onBlur={(e) => {
+                  inputBlurHandler(e);
+                  field.onBlur();
+                }}
               />
             </FormControl>
             <FormMessage />

@@ -11,6 +11,7 @@ type WriteFormLabelProps = {
   text: string;
   className?: string;
   info?: string;
+  isTooltipOpen?: boolean;
 };
 
 export const WriteFormLabel = ({
@@ -18,6 +19,7 @@ export const WriteFormLabel = ({
   text,
   className,
   info,
+  isTooltipOpen,
 }: WriteFormLabelProps) => {
   return (
     <div className="flex gap-1">
@@ -28,7 +30,7 @@ export const WriteFormLabel = ({
         {text}
       </FormLabel>
       {info && (
-        <Tooltip>
+        <Tooltip open={isTooltipOpen}>
           <TooltipTrigger>
             <CircleInfo />
           </TooltipTrigger>

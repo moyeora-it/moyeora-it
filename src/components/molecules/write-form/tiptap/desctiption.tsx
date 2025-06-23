@@ -101,7 +101,7 @@ export const Description = ({ form }: DescriptionProps) => {
     editorProps: {
       attributes: {
         class: clsx(
-          'h-[500px] w-full mt-0 py-2 px-3 text-sm rounded-md border border-input bg-background ring-offset-background shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]',
+          'h-[500px] overflow-y-auto w-full mt-0 py-2 px-3 text-sm rounded-md border border-input bg-background ring-offset-background shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px]',
           hasError
             ? 'text-red-500 border-red-500 focus-visible:ring-red-500/20'
             : 'focus-visible:border-ring focus-visible:ring-ring/50',
