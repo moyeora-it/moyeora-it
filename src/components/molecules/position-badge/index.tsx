@@ -1,3 +1,5 @@
+'use client';
+
 import { Badge } from '@/components/atoms/badge';
 import {
   Tooltip,
@@ -37,13 +39,20 @@ allPositionlKeys.forEach((position) => {
 
 type PositionBadgeProps = {
   name: string;
+  positionClickHandler?: (name: string) => void;
 };
 
-export const PositionBadge = ({ name }: PositionBadgeProps) => {
+export const PositionBadge = ({
+  name,
+  positionClickHandler,
+}: PositionBadgeProps) => {
   return (
     <Tooltip>
       <div className="position-badge flex flex-row cursor-pointer">
-        <TooltipTrigger type="button">
+        <TooltipTrigger
+          type="button"
+          onClick={() => positionClickHandler?.(name)}
+        >
           <Badge
             text={name}
             className="text-sm font-medium bg-gray-100 text-gray-600 px-1"

@@ -65,6 +65,7 @@ export const SelectPosition = ({ form }: SelectPositionProps) => {
                       : 'border-none outline-none',
                   )}
                   aria-hidden="true"
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <ul className="flex gap-2">
@@ -77,14 +78,10 @@ export const SelectPosition = ({ form }: SelectPositionProps) => {
                         : ''
                     }
                   >
-                    <button
-                      type="button"
-                      onClick={() => {
-                        positionClickHandler(position);
-                      }}
-                    >
-                      <PositionBadge name={position} />
-                    </button>
+                    <PositionBadge
+                      name={position}
+                      positionClickHandler={positionClickHandler}
+                    />
                   </li>
                 ))}
               </ul>
