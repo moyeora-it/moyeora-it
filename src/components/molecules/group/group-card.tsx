@@ -19,7 +19,9 @@ type GroupCardProps = {
 
 // TODO : 섹션별로 component 나누기
 export const GroupCard = ({ item }: GroupCardProps) => {
-  const isClosed = isBeforeToday(item.deadline);
+  const isClosed =
+    isBeforeToday(item.deadline) ||
+    item.participants.length >= item.maxParticipants;
 
   return (
     <div className="relative p-5 h-[280px] lg:h-[316px] bg-white shadow-sm ring-2 ring-gray-300/30 rounded-xl">
