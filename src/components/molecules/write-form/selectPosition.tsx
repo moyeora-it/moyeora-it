@@ -20,10 +20,6 @@ export const SelectPosition = ({ form }: SelectPositionProps) => {
     [],
   );
   const hasError = !!form.formState.errors.position;
-  // const { field, fieldState } = useController({
-  //   name: 'position',
-  //   control: form.control,
-  // });
 
   const positionClickHandler = (position: PositionName) => {
     const isSelected = selectedPositions.find(
