@@ -45,7 +45,7 @@ export const CurrentUserProfile = () => {
           </div>
           <div className="flex flex-col gap-y-1 min-w-0">
             <div className="flex gap-x-2 min-w-0">
-              <span className="text-sm font-medium shrink-0">Skills</span>
+              <span className="text-sm font-medium shrink-0">기술스택</span>
               {skills && skills.length === 0 ? (
                 <p className="text-gray-700 text-sm">
                   설정된 기술스택이 없어요.
@@ -64,7 +64,7 @@ export const CurrentUserProfile = () => {
               )}
             </div>
             <div className="flex gap-x-1.5">
-              <span className="text-sm font-medium">E-mail</span>
+              <span className="text-sm font-medium">이메일</span>
               <span className="text-sm font-normal text-gray-700 line-clamp-1">
                 {email}
               </span>

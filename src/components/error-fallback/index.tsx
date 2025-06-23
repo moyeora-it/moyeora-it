@@ -30,7 +30,8 @@ export const ErrorFallback = ({
   const handleClick = () => {
     if (
       error?.message.includes('401') ||
-      error?.message.toLowerCase().includes('unauthorized')
+      error?.message.toLowerCase().includes('unauthorized') ||
+      error?.message.toLowerCase().includes('refresh 만료')
     ) {
       clearUser();
       console.log('401 에러 발생');
@@ -54,7 +55,8 @@ export const ErrorFallback = ({
         className="mt-2 text-white text-sm cursor-pointer bg-green-600"
       >
         {error?.message.includes('401') ||
-        error?.message.toLowerCase().includes('unauthorized')
+        error?.message.toLowerCase().includes('unauthorized') ||
+        error?.message.toLowerCase().includes('refresh 만료')
           ? '로그인하기'
           : '다시 시도'}
       </Button>
