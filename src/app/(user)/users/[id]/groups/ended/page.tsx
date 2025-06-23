@@ -20,23 +20,25 @@ type EndedGroupsPageWrapperProps = {
 };
 
 type EndedGroupsPageProps = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{
+  params: { id: string };
+  searchParams: {
     search: string;
     type: string;
-  }>;
+  };
 };
 
 export default async function EndedGroupsPageWrapper({
   params,
   searchParams,
 }: EndedGroupsPageWrapperProps) {
+  const awaitedSearchParams = await searchParams;
+  const awaitedParams = await params;
   return (
     <Suspense
       fallback={<GroupListLoading />}
-      key={JSON.stringify(searchParams)}
+      key={JSON.stringify(awaitedSearchParams)}
     >
-      <EndedGroupsPage params={params} searchParams={searchParams} />
+      <EndedGroupsPage params={awaitedParams} searchParams={awaitedSearchParams} />
     </Suspense>
   );
 }
@@ -45,9 +47,9 @@ const EndedGroupsPage = async ({
   params,
   searchParams,
 }: EndedGroupsPageProps) => {
-  const { id } = await params;
+  const { id } = params;
 
-  const { search, type } = await searchParams;
+  const { search, type } = searchParams;
 
   const queryClient = new QueryClient();
 
