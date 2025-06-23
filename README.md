@@ -3,22 +3,17 @@
 🔗 https://my.sjcpop.com/
 
 **개발자를 위한 스터디, 프로젝트 모집 서비스**
-
 😵‍💫 스터디 구하려다가 오픈카톡 타고, 디스코드 들어가고… 시작도 전에 지쳐보신 적 있으신가요?
 
 🤔 신청은 왔는데 내가 찾는 신청자가 아니라서 난감했던 경험도 한 번쯤 있으셨죠? 
-
 **모여라IT**은 ‘참여하기’ 버튼 한 번이면 신청 끝! 🙌
-
 원하는 **기술 스택이나 포지션**이 모임에 표시되어 있으니까 딱 맞는 사람을 찾기 쉬워요 🔍
-
 신청자의 프로필도 확인할 수 있고, 궁금한 점은 댓글로 가볍게 소통할 수도 있어요 💬😊
 
-[메인 사진]
+<img width="1265" alt="스크린샷 2025-06-23 오후 6 50 55" src="https://github.com/user-attachments/assets/4a8a9d3b-b910-4820-bb18-fa89ecd90fbc" />
 
 ### 🔄 서비스 흐름도
-
-[플로우차트]
+[🔗 플로우차트](https://www.figma.com/board/gLO4BefKt2EhU4QqC5VIIh/%EB%AA%A8%EC%97%AC%EB%9D%BC%EC%9E%87-%ED%94%8C%EB%A1%9C%EC%9A%B0%EC%B0%A8%ED%8A%B8?node-id=0-1&t=e68OLJ3BUTsbYdLM-1)
 
 <br />
 
