@@ -1,16 +1,29 @@
-# 모여라IT
-## 프로젝트 소개
-
+## 📌 프로젝트 개요
 
 🔗 https://my.sjcpop.com/
 
-개발자를 위한 스터디, 프로젝트 모집 서비스
+**개발자를 위한 스터디, 프로젝트 모집 서비스**
 
-유저가 사용중인 기술과 포지션을 설정하여 목적에 부합한 스터디, 프로젝트에 더 쉽게 참가할 수 있습니다.
+😵‍💫 스터디 구하려다가 오픈카톡 타고, 디스코드 들어가고… 시작도 전에 지쳐보신 적 있으신가요?
+
+🤔 신청은 왔는데 내가 찾는 신청자가 아니라서 난감했던 경험도 한 번쯤 있으셨죠? 
+
+**모여라IT**은 ‘참여하기’ 버튼 한 번이면 신청 끝! 🙌
+
+원하는 **기술 스택이나 포지션**이 모임에 표시되어 있으니까 딱 맞는 사람을 찾기 쉬워요 🔍
+
+신청자의 프로필도 확인할 수 있고, 궁금한 점은 댓글로 가볍게 소통할 수도 있어요 💬😊
 
 [메인 사진]
 
-## 설치 및 실행
+### 🔄 서비스 흐름도
+
+[플로우차트]
+
+<br />
+
+## 🚀 설치 및 실행
+
 
 
 ```jsx
@@ -56,10 +69,12 @@ $ yarn dev
 
 ### 1-2. 환경변수 설정
 
-`.env` 파일 생성 후 아래와 같이 추가합니다.
+`.env.local` 파일 생성 후 아래와 같이 추가합니다.
 
 ```jsx
 NEXT_PUBLIC_API_BASE_URL=https://my-api.sjcpop.com/api
+ACCESS_TOKEN=accessToken
+REFRESH_TOKEN=refreshToken
 ```
 
 ### 1-1. 사용 ID, PW
@@ -67,8 +82,16 @@ NEXT_PUBLIC_API_BASE_URL=https://my-api.sjcpop.com/api
 - ID
 - Password
 
-## **아키텍처**
+## **사용 기술**
+<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/> <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/TanstackQuery-E93D2C?style=flat-square&logo=ReactQuery&logoColor=white"/>
+<img src="https://img.shields.io/badge/🐻 Zustand-5E5046?style=flat-square&logo=zustand&logoColor=white"/> <img src="https://img.shields.io/badge/ReactHookForm-E53E7E?style=flat-square&logo=ReactHookForm&logoColor=white"/>
+<img src="https://img.shields.io/badge/Zod-2D55FE?style=flat-square&logo=Zod&logoColor=white"/> <img src="https://img.shields.io/badge/Shadcn-121212?style=flat-square&logo=ShadcnUI&logoColor=white"/> <img src="https://img.shields.io/badge/msw-FC5327?style=flat-square&logo=mswUI&logoColor=white"/>
 
+<br />
+
+## 📐 아키텍처
+
+### 1.  폴더 구조
 
 ```jsx
 📦src
@@ -88,26 +111,61 @@ NEXT_PUBLIC_API_BASE_URL=https://my-api.sjcpop.com/api
  ┣ 📂hooks
  ┣ 📂lib
  ┣ 📂mocks
- ┃ ┣ 📂handler
+ ┃ ┗ 📂handler
  ┣ 📂providers
  ┣ 📂stores
  ┣ 📂types
  ┗ 📂utils
 ```
 
-components
+### 2. 컴포넌트 설계
 
-- atomic 디자인 적용 : 중복되는 컴포넌트들 간의 재사용성을 높임
+`components/` 디렉토리는 **Atomic Design** 패턴에 따라 다음과 같이 구성됩니다:
 
-features
+- `ui/` : Shadcn UI 컴포넌트가 설치되는 디렉토리
+- `atoms/` : 더 이상 분해할 수 없는 최소 단위 컴포넌트
+- `molecules/` : atoms를 조합하여 단일 기능을 수행하는 컴포넌트
+- `organisms/` : atoms + molecules 조합, 독립적인 UI 영역 구성
 
-- 기능별로 features 폴더 안에 폴더를 구성하여 관리
+`features/` 디렉토리는 기능 단위의 코드를 분리하려 관련 로직을 관리합니다.
 
-## **사용 기술**
-<img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=Next.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
-<img src="https://img.shields.io/badge/TanstackQuery-E93D2C?style=flat-square&logo=ReactQuery&logoColor=white"/>
-<img src="https://img.shields.io/badge/🐻 Zustand-5E5046?style=flat-square&logo=zustand&logoColor=white"/>
-<img src="https://img.shields.io/badge/ReactHookForm-E53E7E?style=flat-square&logo=ReactHookForm&logoColor=white"/>
-<img src="https://img.shields.io/badge/Zod-2D55FE?style=flat-square&logo=Zod&logoColor=white"/>
-<img src="https://img.shields.io/badge/Shadcn-121212?style=flat-square&logo=ShadcnUI&logoColor=white"/>
+`mocks/` 디렉토리는 API 서버 없이도 프론트엔드 개발 및 테스트가 가능하도록 MSW를 활용해 가짜 API를 구성할 수 있습니다
+
+### 3. 상태 관리
+
+- **Zustand**를 사용하여 전역 상태를 관리하고 있습니다.
+- 서버 상태 관리 및 데이터 패칭은 **Tanstack Query**를 활용하여 캐싱 및 비동기 상태를 효율적으로 처리합니다.
+
+### 4. API 통신 구조
+
+- `fetch`를 기반으로 데이터를 요청하며, 공통 요청 로직은 `request.ts`에 정의되어 있습니다.
+- 각 API 요청은 `features/` 폴더 또는 관련 모듈 내에서 정의하고 사용합니다.
+
+### 5. UI 디자인 시스템
+
+- **Shadcn UI**와 **Tailwind CSS**를 사용하여 일관된 UI 컴포넌트를 구성하고 있습니다.
+- Shadcn 컴포넌트는 `components/ui/` 폴더에 설치되며, Tailwind 유틸리티 클래스를 기반으로 커스터마이징합니다.
+
+### 6. 테스트 구조
+
+- API 서버가 준비되기 전까지는 **MSW(Mock Service Worker)**를 사용하여 목 데이터를 기반으로 개발 및 테스트를 진행했습니다.
+- 각 페이지 라우트 하위에 `__test__/` 폴더를 두고 테스트 코드를 작성하고 있습니다.
+    
+    예: `app/group/[id]/__test__/`
+    
+
+### 7. CI/CD
+
+- **GitHub Actions**를 이용하여 CI(테스트/빌드) 및 배포를 자동화하고 있습니다.
+- `dev` 브랜치에 푸시되면 자동으로 배포가 진행됩니다.
+
+<br />
+
+## ✨ 기능 설명
+
+[프로젝트 개요](https://www.notion.so/1f5091373e7180b08439d650b1dce57b?pvs=21) 
+
+## 🐞 트러블 슈팅
+
+[트러블 슈팅](https://www.notion.so/218091373e7180388816effc11ca98c6?pvs=21)
+
