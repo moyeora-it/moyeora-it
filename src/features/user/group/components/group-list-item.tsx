@@ -49,7 +49,7 @@ export const GroupListItem = ({
               </span>
             ) : (
               <span
-                className={`text-sm inline-block font-medium px-3 py-1 rounded-lg bg-green-50 text-green-500`}
+                className={`text-sm inline-block font-medium px-3 py-1 rounded-lg bg-green-50 text-green-500 shrink-0`}
               >
                 {type === 'study' ? '스터디' : '프로젝트'}
               </span>
