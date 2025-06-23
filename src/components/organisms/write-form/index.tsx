@@ -38,8 +38,8 @@ const formSchema = z
       .string()
       .trim()
       .nonempty({ message: '제목을 입력해주세요.' })
-      .max(30, {
-        message: '제목이 너무 길어요. 30자 이내로 줄여주세요.',
+      .max(100, {
+        message: '제목이 너무 길어요. 100자 이내로 줄여주세요.',
       }),
     maxParticipants: z.coerce
       .number({ message: '모임의 정원을 설정해주세요.' })
