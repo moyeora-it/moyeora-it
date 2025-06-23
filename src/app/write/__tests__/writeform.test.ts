@@ -25,7 +25,7 @@ describe('write form 테스트', () => {
     autoAllow: false,
     type: GroupType.STUDY,
     skills: ['Typescript', 'Next.js'],
-    positions: ['FE'],
+    position: ['FE'],
     createdAt: new Date(2024.05, 26),
   };
 

@@ -1,10 +1,10 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import { NotificationList } from '.';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { server } from '@/mocks/server';
 import useAuthStore from '@/stores/useAuthStore';
-import { Suspense } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render, screen, waitFor } from '@testing-library/react';
 import { http, HttpResponse } from 'msw';
+import { Suspense } from 'react';
+import { NotificationList } from '.';
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -20,12 +20,12 @@ const renderWithClient = (ui: React.ReactElement) => {
   return render(
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={<div>Loading...</div>}>{ui}</Suspense>
-    </QueryClientProvider>
+    </QueryClientProvider>,
   );
 };
 
 const mockUser = {
-  userId: 'test-user',
+  userId: 1,
   email: 'test@test.com',
   nickname: 'Test User',
   profileImage: null,
@@ -35,7 +35,6 @@ const mockUser = {
   isFollower: false,
   rate: 0,
 };
-
 
 describe('알람 목록 컴포넌트 테스트', () => {
   beforeAll(() => {
@@ -60,16 +59,16 @@ describe('알람 목록 컴포넌트 테스트', () => {
 
       http.get('/api/notification/unread-count', () => {
         return HttpResponse.json({ unreadCount: 1 });
-      })
+      }),
     );
-    
+
     renderWithClient(<NotificationList />);
-    
+
     const badge = await screen.findByRole('status');
     expect(badge).toBeInTheDocument();
   });
 
-  it("로그인이 안된 경우 list가 렌더링 되지 않는다", async () => {
+  it('로그인이 안된 경우 list가 렌더링 되지 않는다', async () => {
     useAuthStore.setState({ user: null });
     renderWithClient(<NotificationList />);
 
@@ -78,4 +77,4 @@ describe('알람 목록 컴포넌트 테스트', () => {
       expect(screen.queryByText('Notification')).not.toBeInTheDocument();
     });
   });
-}); 
+});
