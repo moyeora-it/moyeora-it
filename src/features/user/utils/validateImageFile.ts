@@ -13,7 +13,7 @@
  */
 export const validateImageFile = (
   file: File,
-  maxFileSize = 5 * 1024 * 1024,
+  maxFileSize = 1024 * 1024,
 ): { isValid: boolean; errorMessage?: string } => {
   if (!file.type.startsWith('image/')) {
     return {
