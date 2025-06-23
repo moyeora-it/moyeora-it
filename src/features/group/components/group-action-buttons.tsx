@@ -1,10 +1,10 @@
 'use client';
 
 import { invalidateTag } from '@/actions/invalidate';
-import { ApplyJoinButton } from '@/components/atoms/apply-join-button.tsx';
-import { CancelGroupButton } from '@/components/atoms/cancel-group-button';
-import { CancelJoinButton } from '@/components/atoms/cancel-join-button';
 import { ShareButton } from '@/components/atoms/share-button';
+import { ApplyJoinButton } from '@/features/group/components/apply-join-button';
+import { CancelGroupButton } from '@/features/group/components/cancel-group-button';
+import { CancelJoinButton } from '@/features/group/components/cancel-join-button';
 import useAuthStore from '@/stores/useAuthStore';
 import { useState } from 'react';
 

@@ -3,8 +3,8 @@ import { Badge } from '@/components/atoms/badge';
 import { GroupProgress } from '@/components/atoms/group/particiapant-progress';
 import { PositionBadge } from '@/components/molecules/position-badge';
 import { SkillBadge } from '@/components/molecules/skill-badge';
-import { ParticipantListModal } from '@/components/organisms/participant-list-modal';
 import { BookmarkButtonContainer } from '@/features/bookmark/components/bookmark-button-container';
+import { ParticipantListModal } from '@/features/group/components/participant-list-modal';
 import { GroupDetail, GroupTypeName } from '@/types';
 import { Position, Skill } from '@/types/enums';
 import { formatYearMonthDayWithDot } from '@/utils/dateUtils';
@@ -102,7 +102,7 @@ export const GroupDetailCard = ({
           <div className="flex justify-between">
             <div className="flex">
               {info.group.participants
-                .slice(0, 3)
+                .slice(0, 5)
                 .map(({ userId, profileImage, email, nickname }, index) => (
                   <Avatar
                     key={userId}
@@ -115,7 +115,7 @@ export const GroupDetailCard = ({
                 ))}
               <ParticipantListModal
                 participants={info.group.participants}
-                className={`z-50 ${
+                className={`z-100 ${
                   info.group.participants.length > 0 ? '-ml-3' : ''
                 }`}
               />
@@ -128,7 +128,7 @@ export const GroupDetailCard = ({
 };
 
 const getZIndexClass = (index: number) => {
-  const zIndexMap = ['z-10', 'z-20', 'z-30'];
+  const zIndexMap = ['z-10', 'z-20', 'z-30', 'z-40', 'z-50'];
   return zIndexMap[index] ?? 'z-0';
 };
 

@@ -1,8 +1,8 @@
-import { GroupDescription } from '@/components/atoms/group-description';
-import { GroupActionButtons } from '@/components/molecules/gorup-action-buttons';
 import { Empty } from '@/components/organisms/empty';
-import { GroupDetailCard } from '@/components/organisms/group-detail-card';
-import { ReplySection } from '@/components/organisms/reply/reply-section';
+import { GroupActionButtons } from '@/features/group/components/group-action-buttons';
+import { GroupDescription } from '@/features/group/components/group-description';
+import { GroupDetailCard } from '@/features/group/components/group-detail-card';
+import { ReplySection } from '@/features/reply/components/reply-section';
 import { GroupDetail } from '@/types';
 import { getAuthCookieHeader } from '@/utils/cookie';
 import { isBeforeToday } from '@/utils/dateUtils';
@@ -154,7 +154,7 @@ export default async function GroupDetailPage({
         <div className="bg-gray-50 items-center py-15 px-5 sm:px-10">
           <GroupDetailCard info={data} isRecruiting={isRecruiting} />
         </div>
-        <div className="mx-auto flex flex-col gap-10 w-full max-w-[900px] max-[900px]:px-10 px-6">
+        <div className="mx-auto flex flex-col gap-15 w-full max-w-[900px] max-[900px]:px-10 px-6">
           <GroupDescription
             description={group.description}
             groupType={group.type}

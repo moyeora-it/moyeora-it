@@ -1,7 +1,7 @@
 'use client';
 
-import { AddRereplyButton } from '@/components/atoms/reply/add-rereply-button';
 import { useState } from 'react';
+import { AddRereplyButton } from './add-rereply-button';
 import { ReplyForm } from './reply-form';
 
 type RereplyFormToggleProps = {

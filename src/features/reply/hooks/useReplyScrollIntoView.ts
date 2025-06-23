@@ -37,55 +37,60 @@ export const useReplyScrollIntoView = ({
 
   const hasSetToastRef = useRef<boolean>(false);
 
-  useEffect(() => {
-    let target: number | undefined;
+  const getTargetId = (): number | undefined => {
+    if (replyType === 'reply') return targetReplyId ?? undefined;
+    if (replyType === 'rereply') return targetRereplyId ?? undefined;
+  };
 
+  const clearTargetQueryAndState = () => {
+    const params = new URLSearchParams(searchParams.toString());
     if (replyType === 'reply') {
-      if (!targetReplyId) return;
-      target = targetReplyId;
+      params.delete('replyId');
+      setTargetReply({ targetReplyId: null });
+    } else {
+      params.delete('rereplyId');
+      setTargetReply({ targetRereplyId: null });
+    }
+    const query = params.toString();
+    const newUrl = query ? `${pathname}?${query}` : pathname;
+    window.history.replaceState(null, '', newUrl);
+  };
+
+  const scrollToElement = (element: HTMLElement | null) => {
+    element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  const showReplyNotFoundToast = () => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (params.has('replyId')) {
+      toast.error('존재하지 않는 댓글입니다.');
+    } else if (params.has('rereplyId')) {
+      toast.error('삭제된 대댓글입니다.');
     }
 
-    if (replyType === 'rereply') {
-      if (!targetRereplyId) return;
-      target = targetRereplyId;
-    }
+    clearTargetQueryAndState();
+    setTargetReply({ targetReplyId: null, targetRereplyId: null });
+  };
 
-    if (!target) return;
+  useEffect(() => {
+    const targetId = getTargetId();
+    if (!targetId) return;
 
-    const targetElement = itemRefs.current[target];
+    const targetElement = itemRefs.current[targetId];
 
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-      if (replyType === 'reply') {
-        setTargetReply({ targetReplyId: null });
-        const newParams = new URLSearchParams(searchParams.toString());
-        newParams.delete('replyId');
-        const newQuery = newParams.toString();
-        const newUrl = newQuery ? `${pathname}?${newQuery}` : pathname;
-        window.history.replaceState(null, '', newUrl);
-      } else {
-        setTargetReply({ targetRereplyId: null });
-        window.history.replaceState(null, '', pathname);
-      }
+      scrollToElement(targetElement);
+      clearTargetQueryAndState();
     } else {
-      bottomRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+      scrollToElement(bottomRef.current);
+
       if (!hasNextPage && !hasSetToastRef.current) {
         hasSetToastRef.current = true;
-        setTimeout(() => {
-          const params = new URLSearchParams(searchParams.toString());
-          if (params.has('replyId')) {
-            toast.error('존재하지 않는 댓글입니다.');
-          } else if (params.has('rereplyId')) {
-            toast.error('삭제된 대댓글입니다.');
-          }
-          window.history.replaceState(null, '', pathname);
-        }, 1000);
+        setTimeout(showReplyNotFoundToast, 1000);
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetReplyId, targetRereplyId, data]);
 

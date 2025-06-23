@@ -1,10 +1,10 @@
 'use client';
 
 import { request } from '@/api/request';
+import { LoginRequireButton } from '@/components/atoms/login-require-button';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
-import { LoginRequireButton } from '../login-require-button';
 
 export const ApplyJoinButton = ({ onSuccess }: { onSuccess: () => void }) => {
   const { groupId } = useParams<{ groupId: string }>();

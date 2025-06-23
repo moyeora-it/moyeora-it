@@ -1,11 +1,12 @@
 'use client';
 
-import { ReplyItem } from '@/components/organisms/reply/reply-item';
+import { useReplyScrollIntoView } from '@/features/reply/hooks/useReplyScrollIntoView';
+import { useTargetReplyParams } from '@/features/reply/hooks/useTargetReplyParams ';
 import { useFetchInView } from '@/hooks/useFetchInView';
 import { useFetchItems } from '@/hooks/useFetchItems';
-import { useReplyScrollIntoView } from '@/hooks/useReplyScrollIntoView';
-import { useTargetReplyParams } from '@/hooks/useTargetReplyParams ';
+import { ReplyItem } from './reply-item';
 
+import { Loading } from '@/components/organisms/loading';
 import { useTargetReplyStore } from '@/stores/useTargetReply';
 import { Reply } from '@/types';
 import flattenPages from '@/utils/flattenPages';
@@ -53,8 +54,24 @@ export const ReplyList = () => {
 
   const replies = flattenPages(data.pages);
 
+  if (isLoading) {
+    return (
+      <div className="my-15">
+        <Loading />
+      </div>
+    );
+  }
+
+  if (replies.length === 0) {
+    return (
+      <div className="my-15 text-center text-gray-500">
+        아직 댓글이 없습니다.
+      </div>
+    );
+  }
+
   return (
-    <section className="my-15">
+    <div className="my-15">
       <ul className="flex flex-col gap-10">
         {replies.map((reply) => (
           <li
@@ -72,6 +89,6 @@ export const ReplyList = () => {
       {hasNextPage && !isFetchingNextPage && (
         <div ref={ref} className="h-2 -translate-y-100 bg-transparent" />
       )}
-    </section>
+    </div>
   );
 };

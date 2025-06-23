@@ -1,7 +1,6 @@
 'use client';
 
 import { request } from '@/api/request';
-import { ReplyMeta } from '@/components/molecules/reply/reply-meta';
 import { Button } from '@/components/ui/button';
 import useAuthStore from '@/stores/useAuthStore';
 import { Reply } from '@/types';
@@ -9,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import { ReplyMeta } from './reply-meta';
 
 type ReplyContentProps = Reply & { parentId?: number; onDelete?: () => void };
 
@@ -110,13 +110,13 @@ export const ReplyContent = ({
           className="max-h-20 w-full border-2 border-slate-800 rounded-sm p-3 resize-none"
         />
       ) : (
-        <p
+        <h3
           className={`${
             isLocallyDeleted ? 'text-gray-500' : ''
           } break-words whitespace-pre-wrap`}
         >
           {isLocallyDeleted ? '삭제된 댓글입니다.' : content}
-        </p>
+        </h3>
       )}
     </div>
   );
