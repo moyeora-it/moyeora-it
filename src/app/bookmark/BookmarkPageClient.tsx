@@ -73,7 +73,7 @@ export function BookmarkPageClient() {
   });
 
   const items = flattenPages(data.pages);
-  const bookmarkItems = items.filter((item) => !item.isBookmark);
+  const bookmarkItems = items.filter((item) => item.isBookmark);
 
   // 탭 변경 핸들러
   const handleValueChange = (value: GroupType) => {
@@ -117,7 +117,7 @@ export function BookmarkPageClient() {
             ) : (
               <>
                 <ul className="grid mt-8 gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  {items.map((group) => (
+                  {bookmarkItems.map((group) => (
                     <li key={group.id}>
                       <GroupCard item={group} />
                     </li>
