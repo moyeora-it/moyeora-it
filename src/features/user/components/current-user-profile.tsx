@@ -4,9 +4,10 @@ import { Avatar } from '@/components/atoms/avatar';
 import useAuthStore from '@/stores/useAuthStore';
 import { getSkill } from '@/types/enums';
 import { EditUserProfileDialog } from '@/features/user/components/edit-user-profile-dialog';
-// import { AccountSettingsDialog } from '@/features/user/components/account-settings-dialog';
-// import { WithdrawDialog } from '@/features/user/components/withdraw-dialog';
+import { AccountSettingsDialog } from '@/features/user/components/account-settings-dialog';
+import { WithdrawDialog } from '@/features/user/components/withdraw-dialog';
 import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
+import { Separator } from '@/components/ui/separator';
 
 /**
  * 현재 로그인 한 유저의 프로필 컴포넌트
@@ -37,7 +38,7 @@ export const CurrentUserProfile = () => {
           <EditUserProfileDialog />
         </div>
         <div className="flex flex-col gap-y-9 mt-4 flex-1 min-w-0">
-          <div className='h-[28px] flex items-center'>
+          <div className="h-[28px] flex items-center">
             <span className="font-semibold">
               {getDisplayNickname(nickname, email)}
             </span>
@@ -67,6 +68,11 @@ export const CurrentUserProfile = () => {
               <span className="text-sm font-normal text-gray-700 line-clamp-1">
                 {email}
               </span>
+            </div>
+            <div className="flex gap-x-1.5 justify-end mr-3">
+              <AccountSettingsDialog />
+              <Separator orientation="vertical" />
+              <WithdrawDialog />
             </div>
           </div>
         </div>

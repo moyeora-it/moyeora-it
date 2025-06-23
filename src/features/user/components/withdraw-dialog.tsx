@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -51,9 +50,9 @@ export const WithdrawDialog = () => {
     <>
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive" type="button">
+          <button type="button" className="text-sm font-medium cursor-pointer text-gray-500 underline underline-offset-3">
             회원 탈퇴
-          </Button>
+          </button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -63,7 +62,7 @@ export const WithdrawDialog = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>취소</AlertDialogCancel>
+            <AlertDialogCancel className='border-gray-300 text-gray-600'>취소</AlertDialogCancel>
             <AlertDialogAction onClick={withdrawButtonClickHandler}>
               탈퇴
             </AlertDialogAction>

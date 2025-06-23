@@ -14,7 +14,7 @@ const schema = z.object({
       message:
         '영어 대/소문자, 숫자, 특수문자를 혼합하여 8자리 이상 입력해주세요.',
     }),
-  confirmPassword: z
+  currentPassword: z
     .string()
     .nonempty({ message: '기존 비밀번호를 입력해주세요' }),
 });
@@ -36,7 +36,7 @@ export const ChangePasswordForm = ({
     resolver: zodResolver(schema),
     defaultValues: {
       newPassword: '',
-      confirmPassword: '',
+      currentPassword: '',
     },
   });
 
@@ -46,7 +46,7 @@ export const ChangePasswordForm = ({
     try {
       await changePassword({
         newPassword: data.newPassword,
-        confirmPassword: data.confirmPassword,
+        currentPassword: data.currentPassword,
       });
       closeDialog();
     } catch (error) {
@@ -62,7 +62,7 @@ export const ChangePasswordForm = ({
       >
         <InputTextField
           label="기존 비밀번호"
-          name="confirmPassword"
+          name="currentPassword"
           form={formMethods}
           type="password"
         />

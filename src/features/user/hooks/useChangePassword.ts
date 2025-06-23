@@ -9,18 +9,24 @@ export const useChangePassword = () => {
   return useMutation({
     mutationFn: ({
       newPassword,
-      confirmPassword,
+      currentPassword,
     }: {
       newPassword: string;
-      confirmPassword: string;
+      currentPassword: string;
     }) => {
-      const formData = new FormData();
-      formData.append('newPassword', newPassword);
-      formData.append('confirmPassword', confirmPassword);
-
-      return request.patch('/v1/user/edit', {}, formData, {
-        credentials: 'include',
-      });
+      return request.patch(
+        '/v1/user/password-change',
+        {
+          'Content-Type': 'application/json',
+        },
+        {
+          newPassword,
+          confirmPassword: currentPassword,
+        },
+        {
+          credentials: 'include',
+        },
+      );
     },
     onSuccess() {
       toast.success('비밀번호 변경 성공', {
