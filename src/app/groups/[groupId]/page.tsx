@@ -140,7 +140,6 @@ export default async function GroupDetailPage({
   }
 
   const data = responseBody.items;
-  console.log(data);
 
   const { group, host, isApplicant, isJoined } = data;
 

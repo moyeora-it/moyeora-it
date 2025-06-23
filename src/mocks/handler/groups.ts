@@ -193,7 +193,6 @@ export const groupsHandlers = [
       userId: string;
       status: 'approve' | 'deny';
     };
-    console.log(groupId, body);
 
     return HttpResponse.json({}, { status: 200 });
   }),

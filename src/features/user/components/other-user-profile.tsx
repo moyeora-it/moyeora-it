@@ -1,16 +1,16 @@
 'use client';
 
-import { notFound, useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { Avatar } from '@/components/atoms/avatar';
-import { getSkill } from '@/types/enums';
-import { User } from '@/types';
 import { request } from '@/api/request';
-import { ToggleFollowButton } from '@/features/user/follow/components/toggle-follow-button';
-import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
-import { CommonResponse } from '@/types/response';
-import useAuthStore from '@/stores/useAuthStore';
+import { Avatar } from '@/components/atoms/avatar';
 import { UserProfileLoading } from '@/features/user/components/user-profile-loading';
+import { ToggleFollowButton } from '@/features/user/follow/components/toggle-follow-button';
+import useAuthStore from '@/stores/useAuthStore';
+import { User } from '@/types';
+import { getSkill } from '@/types/enums';
+import { CommonResponse } from '@/types/response';
+import { getDisplayNickname, getDisplayProfileImage } from '@/utils/fallback';
+import { useQuery } from '@tanstack/react-query';
+import { notFound, useParams } from 'next/navigation';
 
 /**
  * 현재 로그인 한 유저가 아닌 다른 유저의 프로필 컴포넌트
@@ -51,14 +51,11 @@ export const OtherUserProfile = () => {
 
   const { nickname, email, profileImage, skills } = user;
 
-  console.log(user);
-
   // @ts-expect-error 특정 유저 정보 조회의 경우 백엔드에서 팔로잉 여부를 주지 않음.
   const isFollowing = user?.followers.some(
     // @ts-expect-error 특정 유저 정보 조회의 경우 백엔드에서 팔로잉 여부를 주지 않음.
     (follower) => follower.id === currentUser?.id,
   );
-  console.log(isFollowing);
 
   return (
     <>
@@ -78,7 +75,11 @@ export const OtherUserProfile = () => {
             <ToggleFollowButton
               isFollowing={isFollowing}
               usedIn="profile"
-              className={`${isFollowing ? 'bg-red-600 hover:bg-red-700' : 'bg-black hover:bg-black/70'} text-white h-[28px] text-sm font-semibold rounded-lg py-1 px-3 gap-x-[6px]`}
+              className={`${
+                isFollowing
+                  ? 'bg-red-600 hover:bg-red-700'
+                  : 'bg-black hover:bg-black/70'
+              } text-white h-[28px] text-sm font-semibold rounded-lg py-1 px-3 gap-x-[6px]`}
             />
           </div>
           <div className="flex flex-col gap-y-1 min-w-0">
