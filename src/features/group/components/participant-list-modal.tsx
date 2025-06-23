@@ -42,22 +42,6 @@ export const ParticipantListModal = ({
               >
                 <MemberInfo {...participant} />
               </li>
-            ))}{' '}
-            {participants.map((participant) => (
-              <li
-                key={participant.userId}
-                className="pb-5 border-b-2 border-gray-300 last:border-none border-dashed flex justify-between"
-              >
-                <MemberInfo {...participant} />
-              </li>
-            ))}{' '}
-            {participants.map((participant) => (
-              <li
-                key={participant.userId}
-                className="pb-5 border-b-2 border-gray-300 last:border-none border-dashed flex justify-between"
-              >
-                <MemberInfo {...participant} />
-              </li>
             ))}
           </ul>
         </div>
