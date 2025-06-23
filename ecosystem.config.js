@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'moyeora-it-FE',
-      script: 'yarn',
+      script: 'pnpm',
       args: 'start',
       cwd: '/home/ubuntu/projects/moyeora-it-FE',
       env: {
@@ -15,4 +15,4 @@ module.exports = {
       },
     },
   ],
-}
+};
