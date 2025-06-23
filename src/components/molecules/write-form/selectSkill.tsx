@@ -60,6 +60,7 @@ export const SelectSkill = ({ form }: SelectSkillProps) => {
                       : 'border-none outline-none',
                   )}
                   aria-hidden="true"
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <ul className="flex gap-2">
@@ -72,14 +73,10 @@ export const SelectSkill = ({ form }: SelectSkillProps) => {
                         : ''
                     }
                   >
-                    <button
-                      type="button"
-                      onClick={() => {
-                        skillClickHandler(skill);
-                      }}
-                    >
-                      <SkillBadge name={skill} />
-                    </button>
+                    <SkillBadge
+                      name={skill}
+                      skillClickHandler={skillClickHandler}
+                    />
                   </li>
                 ))}
               </ul>

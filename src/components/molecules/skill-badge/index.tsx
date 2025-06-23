@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Tooltip,
   TooltipContent,
@@ -21,13 +23,18 @@ allSkillKeys.forEach((skill) => {
 type SkillBadgeProps = {
   name: SkillName;
   isDefault?: boolean;
+  skillClickHandler?: (name: SkillName) => void;
 };
 
-export const SkillBadge = ({ name, isDefault = true }: SkillBadgeProps) => {
+export const SkillBadge = ({
+  name,
+  isDefault = true,
+  skillClickHandler,
+}: SkillBadgeProps) => {
   return (
     <Tooltip>
       <div className="skill-badge flex w-full h-full flex-row border p-1 items-center justify-center rounded-full cursor-pointer">
-        <TooltipTrigger type="button">
+        <TooltipTrigger type="button" onClick={() => skillClickHandler?.(name)}>
           {isDefault && (
             <Image src={skillLogoMap[name]} alt="logo" width={20} height={20} />
           )}

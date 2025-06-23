@@ -30,7 +30,7 @@ export const WriteFormLabel = ({
         {text}
       </FormLabel>
       {info && (
-        <Tooltip open={isTooltipOpen}>
+        <Tooltip {...(isTooltipOpen ? { open: true } : {})}>
           <TooltipTrigger>
             <CircleInfo />
           </TooltipTrigger>

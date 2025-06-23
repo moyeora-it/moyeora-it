@@ -20,10 +20,6 @@ export const SelectPosition = ({ form }: SelectPositionProps) => {
     [],
   );
   const hasError = !!form.formState.errors.position;
-  // const { field, fieldState } = useController({
-  //   name: 'position',
-  //   control: form.control,
-  // });
 
   const positionClickHandler = (position: PositionName) => {
     const isSelected = selectedPositions.find(
@@ -65,6 +61,7 @@ export const SelectPosition = ({ form }: SelectPositionProps) => {
                       : 'border-none outline-none',
                   )}
                   aria-hidden="true"
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <ul className="flex gap-2">
@@ -77,14 +74,10 @@ export const SelectPosition = ({ form }: SelectPositionProps) => {
                         : ''
                     }
                   >
-                    <button
-                      type="button"
-                      onClick={() => {
-                        positionClickHandler(position);
-                      }}
-                    >
-                      <PositionBadge name={position} />
-                    </button>
+                    <PositionBadge
+                      name={position}
+                      positionClickHandler={positionClickHandler}
+                    />
                   </li>
                 ))}
               </ul>
