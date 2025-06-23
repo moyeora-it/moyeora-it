@@ -120,7 +120,6 @@ export const WriteForm = ({ userId }: WriteFormProps) => {
     reValidateMode: 'onSubmit', // submit 시에만 유효성 검사
     defaultValues: {
       title: '',
-      maxParticipants: 2,
       description: '',
       autoAllow: false,
       type: GroupType.STUDY,
