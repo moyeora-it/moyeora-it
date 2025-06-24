@@ -187,15 +187,6 @@ export const groupsHandlers = [
       success: true,
     });
   }),
-  http.post('/groups/:id/join', async ({ params, request }) => {
-    const { id } = params;
-    const body = (await request.json()) as {
-      userId: string;
-      status: 'approve' | 'deny';
-    };
-
-    return HttpResponse.json({}, { status: 200 });
-  }),
   http.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/groups/:id`, () => {
     return HttpResponse.json(GROUP_LIST[0]);
   }),
