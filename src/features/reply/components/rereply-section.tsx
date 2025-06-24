@@ -1,0 +1,56 @@
+'use client';
+
+import { useTargetReplyParams } from '@/features/reply/hooks/useTargetReplyParams ';
+import { useTargetReplyStore } from '@/stores/useTargetReply';
+import { useEffect, useState } from 'react';
+import { RereplyFormToggle } from './rereply-form-toggle';
+import { RereplyList } from './rereply-list';
+
+export const RereplySection = ({
+  parentReplyId,
+}: {
+  parentReplyId: number;
+}) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { notificationTargetReplyId, notificationTargetRereplyId } =
+    useTargetReplyParams();
+  const setTargetReply = useTargetReplyStore((state) => state.setTargetReply);
+
+  useEffect(() => {
+    if (
+      notificationTargetRereplyId &&
+      parentReplyId === notificationTargetReplyId
+    ) {
+      setIsOpen(true);
+      setTargetReply({ targetRereplyId: notificationTargetRereplyId });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationTargetReplyId, notificationTargetRereplyId, parentReplyId]);
+
+  const toggleRereplyListHandler = () => {
+    setTargetReply({ targetReplyId: null, targetRereplyId: null });
+    setIsOpen(true);
+  };
+
+  return (
+    <section>
+      <div>
+        <div className="flex justify-between mb-2 pt-3 px-5">
+          <div className="font-semibold text-gray-500">대댓글</div>
+          <button
+            className="cursor-pointer text-gray-500 text-sm"
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            {isOpen ? '접기' : '보기'}
+          </button>
+        </div>
+        {isOpen && <RereplyList parentReplyId={parentReplyId} />}
+      </div>
+      <RereplyFormToggle
+        parentReplyId={parentReplyId}
+        openRereplyList={toggleRereplyListHandler}
+        isOpenRereplyList={isOpen}
+      />
+    </section>
+  );
+};

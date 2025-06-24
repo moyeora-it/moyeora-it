@@ -1,0 +1,66 @@
+name: Dev deploy to EC2
+
+on:
+  push:
+    branches:
+      - dev
+      - feature-ci-cd
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+       # === [1] 현재 러너 IP를 보안 그룹에 추가 ===
+      - name: Whitelist GitHub Actions IP
+        uses: bbharathkumarreddy/aws-whitelist-ip@v1.0
+        with:
+          security-group-id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+          action: whitelist
+          port: 22
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2 # 서울 리전
+
+      - name: SSH into EC2 and deploy
+        uses: appleboy/ssh-action@v1.0.0
+        timeout-minutes: 30
+
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v22.16.0/bin
+            cd /home/ubuntu/projects/moyeora-it-FE
+
+            echo "Pulling latest code from branch: ${{ github.ref_name }}"
+            git fetch origin
+            git checkout ${{ github.ref_name }}
+            git reset --hard origin/${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
+
+            pnpm install --frozen-lockfile
+            pnpm build
+
+            echo "Restarting PM2"
+            pm2 restart ecosystem.config.js --env development
+                  pm2 describe ecosystem.config.js > /dev/null 2>&1
+            if [ $? -ne 0 ]; then 
+              pm2 start ecosystem.config.js --env development
+            else
+              pm2 reload ecosystem.config.js --env development
+            fi
+
+      # === [2] 배포 후 러너 IP를 보안 그룹에서 제거 ===
+      - name: Remove GitHub Actions IP
+        uses: bbharathkumarreddy/aws-whitelist-ip@v1.0
+        with:
+          security-group-id: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+          action: remove
+          port: 22
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2

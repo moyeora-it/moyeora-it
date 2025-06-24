@@ -1,0 +1,61 @@
+name: Auto PR to dev
+
+on:
+  push:
+    branches:
+      - feature-*
+      - fix
+
+concurrency:
+  group: auto-pr-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      BRANCH_NAME: ${{ github.ref_name }}
+      GH_TOKEN: ${{ secrets.MOYEORAIT_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.ref_name }}
+          token: ${{ secrets.MOYEORAIT_TOKEN }}
+                  
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Lint
+        run: yarn lint
+        
+      - name: Run Format
+        run: npx prettier --write .
+
+      - name: Create Pull Request
+        if: success()
+        run: |
+          echo "🔍 Checking PR from $BRANCH_NAME to dev"
+          PR_EXISTS=$(gh pr list --base dev --head "$BRANCH_NAME" --state open --json number --jq 'length')
+
+          COMMIT_LOGS=$(git log --pretty=format:'- %s' --no-merges origin/dev..$BRANCH_NAME | sed -E 's/^(.{100}).*/\1.../')
+          PR_TEMPLATE=$(cat .github/pull_request_template.md | sed 's/((commitLogs))/$COMMIT_LOGS/g')
+          export COMMIT_LOGS
+          PR_BODY=$(echo "$PR_TEMPLATE" | envsubst)
+
+          if [ "$PR_EXISTS" -eq 0 ]; then
+            gh pr create \
+              --base dev \
+              --head "$BRANCH_NAME" \
+              --title "자동 PR: $BRANCH_NAME → dev" \
+              --body "$PR_BODY" \
+              --assignee "$GITHUB_ACTOR"
+          else
+            PR_NUMBER=$(gh pr list --base dev --head "$BRANCH_NAME" --state open --json number --jq '.[0].number')
+            gh pr comment "$PR_NUMBER" --body "새로운 커밋이 푸시되었습니다: $(git log -1 --pretty=%s)"
+            gh pr edit "$PR_NUMBER" --add-label "auto-updated"
+          fi

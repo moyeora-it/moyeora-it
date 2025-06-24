@@ -1,0 +1,115 @@
+{
+  "getUserInfo": {
+    "status": {
+      "success": true
+    },
+    "items": {
+      "items": {
+        "id": 3,
+        "email": "user@example.com",
+        "nickname": null,
+        "provider": null,
+        "provider_id": null,
+        "created_at": "2025-06-05T04:44:54.842Z",
+        "updated_at": "2025-06-05T08:22:36.687Z",
+        "is_deleted": false,
+        "position": 1,
+        "skills": [
+          5,
+          4,
+          3,
+          2
+        ],
+        "email_authentication": null,
+        "group": [],
+        "waiting_list": [],
+        "bookmark": [],
+        "reply": [],
+        "rated_ratings": [],
+        "profileImage": null,
+        "followers": [
+          {
+            "id": 7,
+            "email": "user2@example.com",
+            "nickname": null,
+            "profile_image": null,
+            "profileImage": null
+          },
+          {
+            "id": 38,
+            "email": "wwww1234@example.com",
+            "nickname": "wwww12",
+            "profile_image": "https://festivals3ss.s3.us-east-1.amazonaws.com/profiles/1749535332755_7309681.jpg",
+            "profileImage": "https://festivals3ss.s3.us-east-1.amazonaws.com/profiles/1749535332755_7309681.jpg"
+          },
+          {
+            "id": 21,
+            "email": "te44st4@test.com",
+            "nickname": null,
+            "profile_image": null,
+            "profileImage": null
+          },
+          {
+            "id": 12,
+            "email": "local002@local.com",
+            "nickname": null,
+            "profile_image": null,
+            "profileImage": null
+          },
+          {
+            "id": 34,
+            "email": "pppp1234@example.com",
+            "nickname": null,
+            "profile_image": null,
+            "profileImage": null
+          }
+        ],
+        "following": [
+          {
+            "id": 5,
+            "email": "texova9050@rowplant.com",
+            "nickname": "asdasd",
+            "profile_image": null,
+            "profileImage": null
+          },
+          {
+            "id": 7,
+            "email": "user2@example.com",
+            "nickname": null,
+            "profile_image": null,
+            "profileImage": null
+          },
+          {
+            "id": 34,
+            "email": "pppp1234@example.com",
+            "nickname": null,
+            "profile_image": null,
+            "profileImage": null
+          }
+        ]
+      },
+      "averageRating": 0
+    }
+  },
+  "loginEmailFail": {
+    "status": {
+      "success": false,
+      "code": 500,
+      "message": "테스트: 존재하지 않는 이메일입니다."
+    }
+  },
+  "loginPasswordFail": {
+      "status": {
+        "success": false,
+        "code": 500,
+        "message": "테스트: 비밀번호가 일치하지 않습니다."
+    }
+  },
+  "loginSuccess": {
+    "status": {
+      "success": true,
+      "code": 200,
+      "message": "테스트: 로그인 성공"
+    }
+  }
+}
